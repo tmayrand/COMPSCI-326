@@ -6,7 +6,7 @@ COMPSCI-326: Team Q
 
 ##### Team Members
 * [Arun](https://github.com/adunna)
-* [Darren]()
+* [Darren](https://github.com/dfarrelly)
 * [Isabel](https://github.com/ihagberg)
 * [Jane](https://github.com/onlyNexusHere)
 * [Shane]()
