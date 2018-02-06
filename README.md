@@ -5,12 +5,12 @@ COMPSCI-326: Team Q
 `Spring 2018`
 
 ##### Team Members
-* [Arun]()
+* [Arun](https://github.com/adunna)
 * [Darren]()
-* [Isabel]()
-* [Jane]()
+* [Isabel](https://github.com/ihagberg)
+* [Jane](https://github.com/onlyNexusHere)
 * [Shane]()
-* [Troy]()
+* [Troy](https://github.com/tmayrand)
 
 #### Application
 < TBD >
