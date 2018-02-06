@@ -1,8 +1,21 @@
-COMPSCI-326
+COMPSCI-326: Team Q
 ===========
 
 ### Computer Science 326: Web Programming 
 `Spring 2018`
+
+##### Team Members
+* [Arun]()
+* [Darren]()
+* [Isabel]()
+* [Jane]()
+* [Shane]()
+* [Troy]()
+
+#### Application
+< TBD >
+
+#### Course Info
 
 Web Programming focuses on the complete development of a web application from the ground up. It satisfies the CS Integrative Experiance requirement.
 
@@ -14,5 +27,3 @@ The course webpage is available [here](https://umass-cs-326.github.io) in its en
 
 #### _Honesty Policy_
 _If you are a student currently enrolled in (and/or planning to take) this course and are looking for a quick solution, contact a TA or instructor instead. You are only hurting yourself by cheating, and I assure you it is not worth it. Moreover, using material that you did not create, and presenting it as your own is plagiarism, and is a violation of the [UMass Academic Honesty Policy](http://www.umass.edu/honesty/)._
-
-To view all private repositories, you can go to [this page](https://tmayrand.github.io/git).
