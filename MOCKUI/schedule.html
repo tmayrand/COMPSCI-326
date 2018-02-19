@@ -85,20 +85,23 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
-            <div class="pos-f-t">
-                <div class="collapse" id="navbarToggleExternalContent">
-                    <div class="bg-dark p-4">
-                        <h4 class="text-white">Collapsed content</h4>
-                        <span class="text-muted">Toggleable via the navbar brand.</span>
-                    </div>
-                </div>
-                <nav class="navbar navbar-dark bg-dark">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </nav>
-            </div>
-
+            <!--<div class="pos-f-t">-->
+                <!--<div class="collapse" id="navbarToggleExternalContent">-->
+                    <!--<div class="bg-dark p-4">-->
+                        <!--<h4 class="text-white">Collapsed content</h4>-->
+                        <!--<span class="text-muted">Toggleable via the navbar brand.</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<nav class="navbar navbar-dark bg-dark">-->
+                    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">-->
+                        <!--<span class="navbar-toggler-icon"></span>-->
+                    <!--</button>-->
+                <!--</nav>-->
+            <!--</div>-->
+            <h2>
+                Weekly Schedule
+                <br>
+            </h2>
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -113,15 +116,6 @@
                         </th>
                         <th scope="col">
                             Notes
-
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-secondary active">
-                                    <input type="radio" name="options" id="option1" autocomplete="off" checked> L
-                                </label>
-                                <label class="btn btn-secondary">
-                                    <input type="radio" name="options" id="option2" autocomplete="off"> R
-                                </label>
-                            </div>
                         </th>
                     </tr>
                 </thead>
@@ -197,6 +191,27 @@
                         </td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+                            <nav aria-label="Week navigation">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </nav>
+                        </th>
+                    </tr>
+                </tfoot>
             </table>
 
 
