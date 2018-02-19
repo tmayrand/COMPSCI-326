@@ -13,7 +13,7 @@ COMPSCI-326: Team Q
 * [Troy](https://github.com/tmayrand)
 
 #### Application
-Qlock, an easy to use and intuitive time clock application.
+CLOQ, an easy to use and intuitive time clock application.
 
 A copy of our Project Proposal may be found [here](https://docs.google.com/document/d/1XlcMGGVRLWw-7qNfq8IKkR03Hjc0I6dKJ3xo6D6_CR0/edit?usp=sharing).
 
@@ -28,4 +28,4 @@ From the course instructor:
 The course webpage is available [here](https://umass-cs-326.github.io) in its entirety.
 
 #### _Honesty Policy_
-_If you are a student currently enrolled in (and/or planning to take) this course and are looking for a quick solution, contact a TA or instructor instead. You are only hurting yourself by cheating, and I assure you it is not worth it. Moreover, using material that you did not create, and presenting it as your own is plagiarism, and is a violation of the [UMass Academic Honesty Policy](http://www.umass.edu/honesty/)._
+_If you are a student currently enrolled in (and/or planning to take) this course and are looking for a quick solution, contact a TA or instructor instead. You are only hurting yourself by cheating, and we assure you it is not worth it. Moreover, using material that you did not create, and presenting it as your own is plagiarism, and is a violation of the [UMass Academic Honesty Policy](http://www.umass.edu/honesty/)._
