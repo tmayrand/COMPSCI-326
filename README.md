@@ -9,7 +9,7 @@ COMPSCI-326: Team Q
 * [Darren](https://github.com/dfarrelly)
 * [Isabel](https://github.com/ihagberg)
 * [Jane](https://github.com/onlyNexusHere)
-* [Shane]()
+* [Shane](https://github.com/sparr1)
 * [Troy](https://github.com/tmayrand)
 
 #### Application
