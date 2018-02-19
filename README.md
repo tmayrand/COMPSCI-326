@@ -13,7 +13,7 @@ COMPSCI-326: Team Q
 * [Troy](https://github.com/tmayrand)
 
 #### Application
-**< TBD >**
+Qlock, an easy to use and intuitive time clock application.
 
 A copy of our Project Proposal may be found [here](https://docs.google.com/document/d/1XlcMGGVRLWw-7qNfq8IKkR03Hjc0I6dKJ3xo6D6_CR0/edit?usp=sharing).
 
