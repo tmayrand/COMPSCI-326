@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import user, announcement, time
+
+admin.site.register(user)
+admin.site.register(announcement)
+admin.site.register(time)
