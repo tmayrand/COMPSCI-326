@@ -4,9 +4,6 @@
 .DS_Store
 COMPSCI-326-TEAM-Q.iml
 
-project2/Q/Cloq/__pycache__/*
-project2/Q/Cloq/migrations/__pycache__/*
-project2/Q/Q/__pycache__/*
+*.pyc
 
-project2/Q/db.sqlite3
-
+*.sqlite3
