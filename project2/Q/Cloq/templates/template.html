@@ -7,8 +7,10 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>Cloq - Template</title>
 
+    {% block title %}<title>Cloq</title>{% endblock %}
+
+    {% load static %}
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -17,77 +19,79 @@
 </head>
 
 <body>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Cloq</a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="logout.html">Sign Out</a>
-        </li>
-    </ul>
-</nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="home.html">
-                            <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="schedule.html">
-                            <span data-feather="calendar"></span>
-                            Schedule
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user_settings.html">
-                            <span data-feather="settings"></span>
-                            Settings
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin_dash.html">
-                            <span data-feather="bar-chart-2"></span>
-                            Admin Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin_settings.html">
-                            <span data-feather="settings"></span>
-                            Admin Settings
-                        </a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Cloq</a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="logout.html">Sign Out</a>
+            </li>
+        </ul>
+    </nav>
 
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Currently Working:</span>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="user"></span>
-                            John Borichevsky
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="user"></span>
-                            Matt Farrell
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <div class="container-fluid">
+        <div class="row">
+            {% block sidebar %}
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="home.html">
+                                    <span data-feather="home"></span>
+                                    Dashboard <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="schedule.html">
+                                    <span data-feather="calendar"></span>
+                                    Schedule
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="user_settings.html">
+                                    <span data-feather="settings"></span>
+                                    Settings
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="admin_dash.html">
+                                    <span data-feather="bar-chart-2"></span>
+                                    Admin Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="admin_settings.html">
+                                    <span data-feather="settings"></span>
+                                    Admin Settings
+                                </a>
+                            </li>
+                        </ul>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <!--FILL HERE-->
-        </main>
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Currently Working:</span>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="user"></span>
+                                    John Borichevsky
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="user"></span>
+                                    Matt Farrell
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock %}
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
     </div>
-</div>
 
 <!-- Bootstrap core JavaScript -->
 

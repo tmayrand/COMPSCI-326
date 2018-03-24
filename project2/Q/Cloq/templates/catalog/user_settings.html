@@ -1,238 +1,104 @@
-<!--
-     Copy and paste this file to your html file and fill with applicable information.
-   -->
+{% extends "template.html" %}
 
+{% block content %}
 
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="icon" href="img/favicon.ico">
-
-        <title>Cloq - Template</title>
-
-        <!-- Bootstrap core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="css/dashboard.css" rel="stylesheet">
-    </head>
-
-    <body>
-        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Cloq</a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="logout.html">Sign Out</a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="home.html">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="schedule.html">
-                                    <span data-feather="calendar"></span>
-                                    Schedule
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="user_settings.html">
-                                    <span data-feather="settings"></span>
-                                    Settings
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="admin_dash.html">
-                                    <span data-feather="bar-chart-2"></span>
-                                    Admin Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="admin_settings.html">
-                                    <span data-feather="settings"></span>
-                                    Admin Settings
-                                </a>
-                            </li>
-                        </ul>
-
-                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                            <span>Currently Working:</span>
-                        </h6>
-                        <ul class="nav flex-column mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="user"></span>
-                                    John Borichevsky
-                                </a>
-                            </li>
-				                    <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="user"></span>
-                                    Matt Farrell
-                                </a>
-                            </li>
-                        </ul>
+<h1>Settings</h1>
+    <form>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="validationDefault01">First name</label>
+                <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationDefault02">Last name</label>
+                <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationDefaultUsername">Username</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2">@</span>
                     </div>
-                </nav>
-
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-			              <h1>Settings</h1>
-                    <form>
-                        <div class="form-row">
-                            <div class="col-md-4 mb-3">
-                                <label for="validationDefault01">First name</label>
-                                <input type="text" class="form-control" id="validationDefault01" placeholder="First name" value="" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationDefault02">Last name</label>
-                                <input type="text" class="form-control" id="validationDefault02" placeholder="Last name" value="" required>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationDefaultUsername">Username</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                                    </div>
-                                    <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                            <small id="emailHelp" class="form-text text-muted"><div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Subscribe to notifications</label>
-                            </div></small>
-                        </div>
-                        <fieldset class="form-group">
-                            <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0">Prefered pronouns</legend>
-                                <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-                                            he/him/his
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            she/her/hers
-                                        </label>
-                                    </div>
-                                    <div class="form-check disabled">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            they/them/theirs
-                                        </label>
-                                    </div>
-                                    <div class="form-check disabled">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            other 
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div class="form-group row">
-                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">If other:</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="xie/xier/xiers">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Phone Number</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="(XXX)-XXX-XXXX">
-                            </div>
-                        </div>
-                        <fieldset class="form-group">
-                            <div class="row">
-                                <legend class="col-form-label col-sm-2 pt-0">Do you want to work overtime?</legend>
-                                <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-                                            Yes
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            Nope
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Message to manager</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-outline-secondary">Download payroll hist.</button>
-                        <button class="btn btn-primary" type="submit">Update</button>
-                    </form>
-                </main>
+                    <input type="text" class="form-control" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted"><div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Subscribe to notifications</label>
+            </div></small>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Prefered pronouns</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            he/him/his
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            she/her/hers
+                        </label>
+                    </div>
+                    <div class="form-check disabled">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            they/them/theirs
+                        </label>
+                    </div>
+                    <div class="form-check disabled">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            other
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">If other:</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="xie/xier/xiers">
             </div>
         </div>
 
-        <!-- Bootstrap core JavaScript
-
-             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-             <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-             <script src="js/popper.min.js"></script>
-             <script src="js/bootstrap.min.js"></script>
-
-             <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-             <script>
-             feather.replace()
-             </script>
-
-             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-             <script>
-             var ctx = document.getElementById("myChart");
-             var myChart = new Chart(ctx, {
-             type: 'line',
-             data: {
-             labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-             datasets: [{
-             data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-             lineTension: 0,
-             backgroundColor: 'transparent',
-             borderColor: '#007bff',
-             borderWidth: 4,
-             pointBackgroundColor: '#007bff'
-             }]
-             },
-             options: {
-             scales: {
-             yAxes: [{
-             ticks: {
-             beginAtZero: false
-             }
-             }]
-             },
-             legend: {
-             display: false,
-             }
-             }
-             });
-             </script>-->
-    </body>
-</html>
+        <div class="form-group row">
+            <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Phone Number</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="(XXX)-XXX-XXXX">
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Do you want to work overtime?</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            Nope
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Message to manager</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="button" class="btn btn-outline-secondary">Download payroll hist.</button>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+{% endblock %}
