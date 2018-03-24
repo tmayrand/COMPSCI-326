@@ -22,13 +22,7 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
-
-urlpatterns += [
     path('cloq/', include('Cloq.urls')),
-]
-
-urlpatterns += [
     path('', RedirectView.as_view(url='/cloq/')),
 ]
 
