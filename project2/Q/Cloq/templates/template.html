@@ -37,25 +37,25 @@
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" href="home.html">
+                                <a class="nav-link active" href="{% url 'dash' %}">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="schedule.html">
+                                <a class="nav-link" href="{% url 'schedule' %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="user_settings.html">
+                                <a class="nav-link" href="{% url 'settings' %}">
                                     <span data-feather="settings"></span>
                                     Settings
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_dash.html">
+                                <a class="nav-link" href="{% url 'admin_dash' %}">
                                     <span data-feather="bar-chart-2"></span>
                                     Admin Dashboard
                                 </a>
