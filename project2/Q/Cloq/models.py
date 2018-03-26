@@ -1,7 +1,6 @@
 from django.db import models
 from django import forms
 from datetime import datetime
-from django.core.validators import RegexValidator
 
 class user(models.Model):
     """
@@ -15,7 +14,7 @@ class user(models.Model):
         email: string: User's email address.
         notification: boolean: Whether user wants to receive email notifications.
         pronoun: string: User's preferred pronouns.
-        phone: string: User's phone number.
+        phone: integer: User's phone number.
         overtime: boolean: Whether user wants to work overtime.
     """
     uid = models.AutoField(primary_key = True, help_text="User identifier.")
@@ -26,9 +25,8 @@ class user(models.Model):
     password = models.CharField(max_length=255, help_text = "Hashed user password.")
     email = models.EmailField(help_text = "User email.")
     notification = models.BooleanField(help_text = "Receive email notifications?")
-    pronoun = models.CharField(max_length=30,blank=True,default="they/them/theirs", help_text = "User pronouns.")
-    phone_regex = RegexValidator(regex=r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$', message="Phone number must be entered in the format: '+1 (888) 888-8888'.")
-    phone = models.CharField(validators=[phone_regex], max_length=20, help_text = "User phone number.", default="+1 (888) 888-8888")
+    pronoun = models.CharField(max_length=30, help_text = "User pronouns.")
+    phone = models.IntegerField(help_text = "User phone number.")
     overtime = models.BooleanField(help_text = "Work overtime?")
 
     def __str__(self):
