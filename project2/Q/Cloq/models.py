@@ -30,7 +30,7 @@ class user(models.Model):
     overtime = models.BooleanField(help_text = "Work overtime?")
 
     def __str__(self):
-        return self.name
+        return str(self.firstname) + " " + str(self.lastname)
 
 class announcement(models.Model):
     """
@@ -48,7 +48,7 @@ class announcement(models.Model):
     title = models.CharField(max_length=255, help_text = "Announcement title.")
 
     def __str__(self):
-        return self.name
+        return str(self.title)
 
 class time(models.Model):
     """
@@ -66,4 +66,4 @@ class time(models.Model):
     uid = models.IntegerField(help_text = "Associated user ID.")
 
     def __str__(self):
-        return self.name
+        return self.start.strftime("%m/%d/%Y (%H:%M)") + " - " + self.end.strftime("%m/%d/%Y (%H:%M)")
