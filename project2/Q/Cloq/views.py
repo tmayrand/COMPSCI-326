@@ -3,13 +3,15 @@ from django.shortcuts import render
 
 # Create your views here.
 
+from .models import *
+
 # Jane does these pages
 def dash(request):
 
     return render(
         request,
         'catalog/user_dash.html',
-        context={}
+        context={''}
     )
 
 def admin_dash(request):
