@@ -3,7 +3,9 @@ from django.shortcuts import render
 
 # Create your views here.
 
+# Jane does these pages
 def dash(request):
+
     return render(
         request,
         'catalog/user_dash.html',
@@ -23,6 +25,11 @@ def schedule(request):
         'catalog/schedule.html',
         context={}
     )
+
+
+# Shane does these pages
+# Note: Make sure they have the css pages they need. Sometimes there are special css pages.
+# Lmk. the css for dash is implicitly included
 
 def admin_schedule(request):
     return render(
