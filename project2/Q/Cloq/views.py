@@ -12,7 +12,7 @@ def dash(request):
     return render(
         request,
         'catalog/user_dash.html',
-        context = {**{'announcements': announcements, 'current_user':current_user}, **template()}
+        context = {**{'announcements': announcements}, **template()}
     )
 
 def admin_dash(request):
@@ -57,5 +57,6 @@ def availability(request):
 
 def template():
     current_user = user.objects.all()[0]
-    return {"current_user_type": current_user.usertype}
+    times = time.objects.all()[0]
+    return {"current_user": current_user, 'times':times}
 
