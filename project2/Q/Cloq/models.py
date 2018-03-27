@@ -40,13 +40,13 @@ class announcement(models.Model):
         aid: integer: Announcement identification number.
         text: string: Announcement body string.
         time: datetime: Announcement datetime timestamp.
-        usertype: integer: Allowed usertypes for viewing.
+        usertype: integer: Viewable by (1 = all users, 2 = admins only).
         title: string: Announcement title string.
     """
     aid = models.AutoField(primary_key = True, help_text = "Announcement identifier.")
     text = models.TextField(help_text = "Announcement body.")
     time = models.DateTimeField(default=datetime.now, help_text="Announcement datetime.")
-    usertype = models.IntegerField(help_text = "Allowed user types (1 = user, 2 = admin + user).")
+    usertype = models.IntegerField(help_text = "Viewable by (1 = all users, 2 = admins only)")
     title = models.CharField(max_length=255, help_text = "Announcement title.")
 
     def __str__(self):
@@ -56,13 +56,13 @@ class time(models.Model):
     """
     Model for time:
         tid: integer: Timestamp identification number.
-        timetype: integer: Time type (1 = punch in, 2 = punch out, 3 = schedule, 4 = unavailable)
+        timetype: integer: Time type (1 = punch in, 2 = punch out, 3 = shift, 4 = unavailable, 5 = request)
         start: datetime: Start datetime.
         end: datetime: End datetime.
         uid: integer: Associated user ID.
     """
     tid = models.AutoField(primary_key = True, help_text = "Timestamp identifier.")
-    timetype = models.IntegerField(help_text = "Time type (1 = punch in, 2 = punch out, 3 = schedule, 4 = unavailable)")
+    timetype = models.IntegerField(help_text = "Time type (1 = punch in, 2 = punch out, 3 = shift, 4 = unavailable, 5 = request)")
     start = models.DateTimeField(default=datetime.now, help_text = "Start datetime.")
     end = models.DateTimeField(default=datetime.now, help_text = "End datetime.")
     uid = models.IntegerField(help_text = "Associated user ID.")
