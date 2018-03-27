@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2>Hi Troy, you are currently clocked out.</h2>
+<h2>Hi {{ current_user.firstname }}, you are currently clocked out.</h2>
     <div class="container-fluid">
         <br>
         <button type="button" class="btn btn-success">Clock In</button>

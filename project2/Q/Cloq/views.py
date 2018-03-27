@@ -7,11 +7,13 @@ from .models import *
 
 # Jane does these pages
 def dash(request):
-
+    print(user.objects.all())
+    current_user = user.objects.all()[0]
+    print(current_user.firstname)
     return render(
         request,
         'catalog/user_dash.html',
-        context={''}
+        context = {**{'current_user': current_user}, **template()}
     )
 
 def admin_dash(request):
@@ -53,3 +55,6 @@ def availability(request):
         'catalog/availability.html',
         context={}
     )
+
+def template():
+    return {"current_user": user.usertype}
