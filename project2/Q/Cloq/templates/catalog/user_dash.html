@@ -12,6 +12,7 @@
     <br>
 
   <h2>Announcements</h2>
+
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
@@ -21,15 +22,13 @@
         </tr>
       </thead>
       <tbody>
+        {% for announce in annoucements %}
         <tr>
-          <td>SEP-1</td>
-          <td><a href="">Welcome back!</a></td>
+          <td>{{ announce.time }}</td>
+          <td><a href="">{{ announce.title }}</a></td>
         </tr>
-        <tr>
-          <td>OCT-25</td>
-            <td><a href="">Halloween costume contest!</a></td>
-        </tr>
-          </tbody>
+      {% endfor %}
+      </tbody>
     </table>
   </div>
 
