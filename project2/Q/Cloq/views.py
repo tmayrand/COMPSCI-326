@@ -3,18 +3,32 @@ from django.shortcuts import render
 
 from Cloq.globalvars import *
 
+from datetime import date
+
 # Create your views here.
 
 from .models import *
 
 # Jane does these pages
 def dash(request):
-    current_user = user.objects.all()[0]
+    # current_user = user.objects.all()[0]
     announcements = announcement.objects.all()
+    today_times = getTodaysSchedule()
+    today_users = list()
+
+    for today_time in today_times:
+        today_users.append((user.objects.filter(uid=today_time.uid)[0].firstname,
+                            user.objects.filter(uid=today_time.uid)[0].lastname,
+                            today_time.uid,
+                            today_time.start.time,
+                            today_time.end.time))
     return render(
         request,
         'catalog/user_dash.html',
-        context = {**{'announcements': announcements}, **template()}
+        context={**{'announcements': announcements,
+                      'today_sched': today_times,
+                      'today_users': today_users},
+                   **template()}
     )
 
 def admin_dash(request):
@@ -70,21 +84,27 @@ def getCurrentWorking():
         uids.add(time_obj.uid)
     for uid_obj in uids:
         if is_working(uid_obj):
-            print(uid_obj, " is working")
+            # print(user.objects.filter(uid=uid_obj)[0], " is ", uid_obj)
             working.append(uid_obj)
     return list(map(lambda x: user.objects.filter(uid=x)[0], working))
 
 def is_working(uid_obj):
     for time_obj in time.objects.filter(uid=uid_obj).order_by('start').reverse():
         if time_obj.timetype == PUNCH_OUT:
-            print(time_obj.uid, " is not working")
+            # print(time_obj.uid, " is not working")
             return False
         elif time_obj.timetype == PUNCH_IN:
+            # print(uid_obj, " is working")
             return True
-    print(time_obj.uid, " is not working")
+        # print(uid_obj, " has timetype ", time_obj.timetype)
+
+    # print(time_obj.uid, " is not working")
     return False
 
-
+def getTodaysSchedule():
+    return time.objects.filter(timetype=SHIFT).\
+        filter(start__date=date(year=2018, month=4, day=2)).\
+        order_by('start')
 
 
 
