@@ -76,18 +76,23 @@
                             <span>Currently Working:</span>
                         </h6>
                         <ul class="nav flex-column mb-2">
+
+                            {% if working %}
+                            {% for worker in working %}
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <span data-feather="user"></span>
-                                    John Borichevsky
+                                    {{ worker.firstname }} {{ worker.lastname }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <span data-feather="user"></span>
-                                    Matt Farrell
-                                </a>
-                            </li>
+                            {% endfor %}
+                            {% endif %}
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" href="#">-->
+                                    <!--<span data-feather="user"></span>-->
+                                    <!--Matt Farrell-->
+                                <!--</a>-->
+                            <!--</li>-->
                         </ul>
                     </div>
                 </nav>

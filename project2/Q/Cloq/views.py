@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import render
 
+from Cloq.globalvars import *
+
 # Create your views here.
 
 from .models import *
@@ -58,5 +60,32 @@ def availability(request):
 def template():
     current_user = user.objects.all()[0]
     times = time.objects.all()[0]
-    return {"current_user": current_user, 'times':times}
+
+    return {"current_user": current_user, 'working': getCurrentWorking()}
+
+def getCurrentWorking():
+    working = list()
+    uids = set()
+    for time_obj in time.objects.all():
+        uids.add(time_obj.uid)
+    for uid_obj in uids:
+        if is_working(uid_obj):
+            print(uid_obj, " is working")
+            working.append(uid_obj)
+    return list(map(lambda x: user.objects.filter(uid=x)[0], working))
+
+def is_working(uid_obj):
+    for time_obj in time.objects.filter(uid=uid_obj).order_by('start').reverse():
+        if time_obj.timetype == PUNCH_OUT:
+            print(time_obj.uid, " is not working")
+            return False
+        elif time_obj.timetype == PUNCH_IN:
+            return True
+    print(time_obj.uid, " is not working")
+    return False
+
+
+
+
+
 
