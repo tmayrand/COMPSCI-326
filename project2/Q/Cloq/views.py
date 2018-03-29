@@ -5,6 +5,8 @@ from Cloq.globalvars import *
 
 from datetime import date
 from datetime import timedelta
+from datetime import time
+from datetime import datetime as dt
 
 # Create your views here.
 
@@ -77,7 +79,8 @@ def admin_schedule(request):
     return render(
         request,
         'catalog/admin_schedule.html',
-        context={}
+        context={**{'week_sched': get_week_schedule_by_user()},
+                 **template()}
     )
 
 def settings(request):
@@ -97,7 +100,7 @@ def availability(request):
 # Helper methods
 def get_current_user():
     # gets the first user right now
-    return user.objects.all()[3]
+    return user.objects.all()[1]
 
 def get_date(year_num:int, month_num:int, day_num:int):
 
@@ -146,11 +149,44 @@ def get_todays_schedule():
 
 def get_week_schedule(start_date):
     sched_objs = list()
-    end_of_week = start_date + timedelta(days=7)
-    for time_obj in time.objects.filter(timetype=SHIFT).filter(start__gt=start_date).filter(start__lt=end_of_week).order_by('start'):
+    end_of_week = get_date() + timedelta(days=7)
+    for time_obj in time.objects.filter(timetype=SHIFT) \
+    .filter(start__gt=get_date()) \
+    .filter(start__lt=end_of_week) \
+    .order_by('uid'):
         # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
         # this is a stupid tuple. Template parsing is not impressive.
-        sched_objs.append( (user.objects.filter(uid=time_obj.uid)[0].firstname, user.objects.filter(uid=time_obj.uid)[0].lastname, time_obj.start, time_obj.end, time_obj.start.strftime("%A"), time_obj.end.strftime("%A")) )
+        sched_objs.append( (user.objects.filter(uid=time_obj.uid)[0].firstname, \
+                            user.objects.filter(uid=time_obj.uid)[0].lastname, \
+                            time_obj.start, time_obj.end, time_obj.start.strftime("%A"), \
+                            time_obj.end.strftime("%A")) )
     return sched_objs
 
+def time_subtract(start, finish):
+    d =finish - start
+    d = (d.seconds)/(7*3600)*100
+    return d
 
+def get_week_schedule_by_user():
+    user_scheds = []
+    end_of_week = get_date() + timedelta(days=7)
+    for user_obj in user.objects.order_by('uid'):
+        sched = [t for t in time.objects
+                 .filter(start__date = get_date())
+                 .filter(timetype = SHIFT)
+                 .filter(start__gt = get_date())
+                 .filter(start__lt = end_of_week)
+                 .filter(uid = user_obj.uid)
+                 .order_by('start')]
+        bar_lengths = []
+        if sched:
+            last_t = dt(2016, 4,2,9,5,0,0,sched[0].start.tzinfo)
+            for t in sched:
+                bar_lengths.append([t, time_subtract(last_t, t.start),
+                                    time_subtract(t.start,t.end)])
+                last_t = t.end
+        user_stuff = [user_obj.firstname,
+        user_obj.lastname,
+                      bar_lengths]
+        user_scheds.append(user_stuff)
+    return user_scheds

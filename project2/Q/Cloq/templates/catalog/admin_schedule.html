@@ -51,39 +51,45 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">J. Borichevsky</th>
+        {% for user in week_sched %}
+        {% if user.2 %}
+        <tr>
+            <th scope="row">{{user.0}} {{user.1}}</th>
         <td>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 33.75%">9:00am - 11:15am</div>
-            <div class="progress-bar filler" role="progressbar" style="width: 26.25%">11:15am - 1:00pm</div>
-            <div class="progress-bar" role="progressbar" style="width: 60%">1:00pm - 5:00pm</div>
-          </div>
+            <div class="progress">
+                {% for t in user.2%}
+                <div class="progress-bar filler" role="progressbar" style="width: {{t.1}}%"></div>
+                <div class="progress-bar" role="progressbar" style="width: {{t.2}}%">{{t.0.start.time}} - {{t.0.end.time}}</div>
+                {%endfor%}
+            </div>
         </td>
-      </tr>
-      <tr>
-        <th scope="row">M. Farrell</th>
-        <td>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 20%">9:00am - 10:20am</div>
-            <div class="progress-bar filler" role="progressbar" style="width: 10%">10:20am - 11:00am</div>
-            <div class="progress-bar unavail progress-bar-striped" role="progressbar" style="width: 15%;"></div>
-            <div class="progress-bar" role="progressbar" style="width: 22.5%">12:00pm - 1:30pm</div>
-            <div class="progress-bar filler" role="progressbar" style="width: 7.5%">1:30pm - 2:00pm</div>
-            <div class="progress-bar" role="progressbar" style="width: 30%">2:00pm - 4:00pm</div>
-            <div class="progress-bar filler" role="progressbar" style="width: 15%">4:00am - 5:00pm</div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">G. Santos</th>
-        <td>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 45%">9:00am - 12:00pm</div>
-            <div class="progress-bar unavail progress-bar-striped" role="progressbar" style="width: 75%"></div>
-          </div>
-        </td>
-      </tr>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+      <!-- <tr> -->
+      <!-- <th scope="row">M. Farrell</th> -->
+      <!-- <td> -->
+      <!-- <div class="progress"> -->
+      <!-- <div class="progress-bar" role="progressbar" style="width: 20%">9:00am - 10:20am</div> -->
+      <!-- <div class="progress-bar filler" role="progressbar" style="width: 10%">10:20am - 11:00am</div> -->
+      <!-- <div class="progress-bar unavail progress-bar-striped" role="progressbar" style="width: 15%;"></div> -->
+      <!-- <div class="progress-bar" role="progressbar" style="width: 22.5%">12:00pm - 1:30pm</div> -->
+      <!-- <div class="progress-bar filler" role="progressbar" style="width: 7.5%">1:30pm - 2:00pm</div> -->
+      <!-- <div class="progress-bar" role="progressbar" style="width: 30%">2:00pm - 4:00pm</div> -->
+      <!-- <div class="progress-bar filler" role="progressbar" style="width: 15%">4:00am - 5:00pm</div> -->
+      <!-- </div> -->
+      <!-- </td> -->
+      <!-- </tr> -->
+      <!-- <tr> -->
+      <!-- <th scope="row">G. Santos</th> -->
+      <!-- <td> -->
+      <!-- <div class="progress"> -->
+      <!-- <div class="progress-bar" role="progressbar" style="width: 45%">9:00am - 12:00pm</div> -->
+      <!-- <div class="progress-bar unavail progress-bar-striped" role="progressbar" style="width: 75%"></div> -->
+      <!-- </div> -->
+      <!-- </td> -->
+      <!-- </tr> -->
     </tbody>
   </table>
 </div>
