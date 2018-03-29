@@ -18,15 +18,30 @@
     <!--</nav>-->
 <!--</div>-->
 <h2>
-    Weekly Schedule
+    Weekly Schedule {% if current_user.usertype == ADMIN %}-- Admin {% endif %}
     <br>
 </h2>
+
+{% if current_user.usertype == ADMIN %}
+<h4>Week Feb 18th - Feb 24th</h4>
+{% endif %}
+
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
+            {% if current_user.usertype == ADMIN %}
             <th scope="col">
-                Week Feb 18th - Feb 24th
+                Name
             </th>
+            {% endif %}
+            <th scope="col">
+                {% if current_user.usertype != ADMIN %}
+                Week Feb 18th - Feb 24th
+                {% else %}
+                Weekday
+                {% endif %}
+            </th>
+
             <th scope="col">
                 Start
             </th>
@@ -39,76 +54,28 @@
         </tr>
     </thead>
     <tbody>
+        {% for user_first, user_last, start_time, end_time, start_day, end_day in week_sched %}
         <tr>
-            <th scope="row">
-                Tuesday
+            {% if current_user.usertype == ADMIN %}
+            <th scope="col">
+                {{user_first}} {{user_last}}
             </th>
+            {% endif %}
+            {% if current_user.usertype == ADMIN %}<td>{% else %} <th> {% endif %}
+                {{ start_day }}
+            {% if current_user.usertype == ADMIN %}</td>{% else %} </th> {% endif %}
             <td>
-                10:00 am
+                {{ start_time.time }}
             </td>
             <td>
-                1:00 pm
+                {{ end_time.time }}
             </td>
             <td>
-                Work in LC
+                Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
             </td>
+
         </tr>
-        <tr>
-            <th scope="row">
-                Wednesday
-            </th>
-            <td>
-                10:00 am
-            </td>
-            <td>
-                1:00 pm
-            </td>
-            <td>
-                Work in HC
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                Thursday
-            </th>
-            <td>
-                10:00 am
-            </td>
-            <td>
-                1:00 pm
-            </td>
-            <td>
-                Work in HC
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                Friday
-            </th>
-            <td>
-                10:00 am
-            </td>
-            <td>
-                1:00 pm
-            </td>
-            <td>
-                Work in HC
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                Saturday
-            </th>
-            <td>
-                10:00 am
-            </td>
-            <td>
-                1:00 pm
-            </td>
-            <td>
-                Work in RC
-            </td>
-        </tr>
+        {% endfor %}
     </tbody>
     <tfoot>
         <tr>

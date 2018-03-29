@@ -4,6 +4,7 @@ from django.shortcuts import render
 from Cloq.globalvars import *
 
 from datetime import date
+from datetime import timedelta
 
 # Create your views here.
 
@@ -12,8 +13,9 @@ from .models import *
 # Jane does these pages
 def dash(request):
     # current_user = user.objects.all()[0]
+    print(get_current_user().usertype)
     announcements = announcement.objects.all()
-    today_times = getTodaysSchedule()
+    today_times = get_todays_schedule()
     today_users = list()
 
     for today_time in today_times:
@@ -32,17 +34,30 @@ def dash(request):
     )
 
 def admin_dash(request):
+    announcements = announcement.objects.all()
+    today_times = get_todays_schedule()
+    today_users = list()
+    for today_time in today_times:
+        today_users.append((user.objects.filter(uid=today_time.uid)[0].firstname,
+                            user.objects.filter(uid=today_time.uid)[0].lastname,
+                            today_time.uid,
+                            today_time.start.time,
+                            today_time.end.time))
     return render(
         request,
         'catalog/admin_dash.html',
-        context={}
+        context={**{'announcements': announcements,
+                    'today_sched': today_times,
+                    'today_users': today_users},
+                 **template()}
     )
 
 def schedule(request):
     return render(
         request,
         'catalog/schedule.html',
-        context={}
+        context={**{'week_sched': get_week_schedule()},
+                 **template()}
     )
 
 
@@ -71,13 +86,27 @@ def availability(request):
         context={}
     )
 
+# Helper methods
+def get_current_user():
+    # gets the first user right now
+    return user.objects.all()[1]
+
+def get_date():
+    # right now just gets from the week that we have set up in data
+    return date(year=2018, month=4, day=2)
+
+def get_week(convert_date: datetime):
+    return convert_date.date().isocalendar()[1]
+
 def template():
-    current_user = user.objects.all()[0]
-    times = time.objects.all()[0]
+    current_user = get_current_user()
+    return {"current_user": current_user, 'working': get_current_working(),
+            'USER': USER, 'ADMIN': ADMIN,
+            'OVERTIME': OVERTIME, 'NO_OVERTIME': NO_OVERTIME,
+            'ALL_VIEW': ALL_VIEW, 'ADMIN_VIEW': ADMIN_VIEW,
+            'PUNCH_IN': PUNCH_IN, 'PUNCH_OUT': PUNCH_OUT, 'SHIFT': SHIFT, 'UNAVAILABLE': UNAVAILABLE, 'REQUEST': REQUEST}
 
-    return {"current_user": current_user, 'working': getCurrentWorking()}
-
-def getCurrentWorking():
+def get_current_working():
     working = list()
     uids = set()
     for time_obj in time.objects.all():
@@ -101,11 +130,18 @@ def is_working(uid_obj):
     # print(time_obj.uid, " is not working")
     return False
 
-def getTodaysSchedule():
+def get_todays_schedule():
     return time.objects.filter(timetype=SHIFT).\
-        filter(start__date=date(year=2018, month=4, day=2)).\
+        filter(start__date=get_date()).\
         order_by('start')
 
-
+def get_week_schedule():
+    sched_objs = list()
+    end_of_week = get_date() + timedelta(days=7)
+    for time_obj in time.objects.filter(timetype=SHIFT).filter(start__gt=get_date()).filter(start__lt=end_of_week).order_by('start'):
+        # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
+        # this is a stupid tuple. Template parsing is not impressive.
+        sched_objs.append( (user.objects.filter(uid=time_obj.uid)[0].firstname, user.objects.filter(uid=time_obj.uid)[0].lastname, time_obj.start, time_obj.end, time_obj.start.strftime("%A"), time_obj.end.strftime("%A")) )
+    return sched_objs
 
 
