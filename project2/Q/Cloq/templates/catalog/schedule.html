@@ -18,28 +18,15 @@
     <!--</nav>-->
 <!--</div>-->
 <h2>
-    Weekly Schedule {% if current_user.usertype == ADMIN %}-- Admin {% endif %}
+    Weekly Schedule
     <br>
 </h2>
 
-{% if current_user.usertype == ADMIN %}
-<h4>Week Feb 18th - Feb 24th</h4>
-{% endif %}
-
 <table class="table table-striped">
     <thead class="thead-dark">
-        <tr>
-            {% if current_user.usertype == ADMIN %}
+        <tr
             <th scope="col">
-                Name
-            </th>
-            {% endif %}
-            <th scope="col">
-                {% if current_user.usertype != ADMIN %}
                 Week Feb 18th - Feb 24th
-                {% else %}
-                Weekday
-                {% endif %}
             </th>
 
             <th scope="col">
@@ -56,14 +43,9 @@
     <tbody>
         {% for user_first, user_last, start_time, end_time, start_day, end_day in week_sched %}
         <tr>
-            {% if current_user.usertype == ADMIN %}
-            <th scope="col">
-                {{user_first}} {{user_last}}
-            </th>
-            {% endif %}
-            {% if current_user.usertype == ADMIN %}<td>{% else %} <th> {% endif %}
+            <th>
                 {{ start_day }}
-            {% if current_user.usertype == ADMIN %}</td>{% else %} </th> {% endif %}
+            </th>
             <td>
                 {{ start_time.time }}
             </td>

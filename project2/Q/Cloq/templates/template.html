@@ -52,12 +52,21 @@
                                 </a>
                             </li>
                             {% endif %}
+                            {% if current_user.usertype == ADMIN %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin_schedule' %}">
+                                    <span data-feather="calendar"></span>
+                                    Schedule
+                                </a>
+                            </li>
+                            {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'schedule' %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
                             </li>
+                            {% endif %}
                             {% if current_user.usertype == ADMIN %}
                             <li class="nav-item">
                                 <a class="nav-link" href="admin_settings.html">
