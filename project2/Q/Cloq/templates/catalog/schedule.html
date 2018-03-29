@@ -21,12 +21,11 @@
     Weekly Schedule
     <br>
 </h2>
-
 <table class="table table-striped">
     <thead class="thead-dark">
-        <tr
+        <tr>
             <th scope="col">
-                Week Feb 18th - Feb 24th
+                Week of {{ week_start_day }}
             </th>
 
             <th scope="col">
@@ -43,19 +42,20 @@
     <tbody>
         {% for user_first, user_last, start_time, end_time, start_day, end_day in week_sched %}
         <tr>
-            <th>
-                {{ start_day }}
-            </th>
-            <td>
-                {{ start_time.time }}
-            </td>
-            <td>
-                {{ end_time.time }}
-            </td>
-            <td>
-                Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
-            </td>
-
+            {% if user_first == current_user.firstname %}
+                <th>
+                    {{ start_day }}
+                </th>
+                <td>
+                    {{ start_time.time }}
+                </td>
+                <td>
+                    {{ end_time.time }}
+                </td>
+                <td>
+                    Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
+                </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

@@ -53,10 +53,15 @@ def admin_dash(request):
     )
 
 def schedule(request):
+    from_date = get_date()  # this has to update somehow??
+    date_format = "%A, %B %w %Y"
+    from_date_str = from_date.strftime(date_format)
+
     return render(
         request,
         'catalog/schedule.html',
-        context={**{'week_sched': get_week_schedule()},
+        context={**{'week_sched': get_week_schedule(from_date),
+                    'week_start_day': from_date_str},
                  **template()}
     )
 
@@ -89,7 +94,7 @@ def availability(request):
 # Helper methods
 def get_current_user():
     # gets the first user right now
-    return user.objects.all()[1]
+    return user.objects.all()[3]
 
 def get_date():
     # right now just gets from the week that we have set up in data
@@ -135,10 +140,10 @@ def get_todays_schedule():
         filter(start__date=get_date()).\
         order_by('start')
 
-def get_week_schedule():
+def get_week_schedule(start_date):
     sched_objs = list()
-    end_of_week = get_date() + timedelta(days=7)
-    for time_obj in time.objects.filter(timetype=SHIFT).filter(start__gt=get_date()).filter(start__lt=end_of_week).order_by('start'):
+    end_of_week = start_date + timedelta(days=7)
+    for time_obj in time.objects.filter(timetype=SHIFT).filter(start__gt=start_date).filter(start__lt=end_of_week).order_by('start'):
         # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
         # this is a stupid tuple. Template parsing is not impressive.
         sched_objs.append( (user.objects.filter(uid=time_obj.uid)[0].firstname, user.objects.filter(uid=time_obj.uid)[0].lastname, time_obj.start, time_obj.end, time_obj.start.strftime("%A"), time_obj.end.strftime("%A")) )
