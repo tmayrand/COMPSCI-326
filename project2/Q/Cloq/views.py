@@ -100,7 +100,7 @@ def availability(request):
 # Helper methods
 def get_current_user():
     # gets the first user right now
-    return user.objects.all()[1]
+    return user.objects.all()[3]
 
 def get_date(year_num:int, month_num:int, day_num:int):
 
@@ -149,9 +149,9 @@ def get_todays_schedule():
 
 def get_week_schedule(start_date):
     sched_objs = list()
-    end_of_week = get_date() + timedelta(days=7)
+    end_of_week = get_date(2018, 4, 2) + timedelta(days=7)
     for time_obj in time.objects.filter(timetype=SHIFT) \
-    .filter(start__gt=get_date()) \
+    .filter(start__gt=get_date(2018, 4, 2)) \
     .filter(start__lt=end_of_week) \
     .order_by('uid'):
         # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
@@ -169,12 +169,12 @@ def time_subtract(start, finish):
 
 def get_week_schedule_by_user():
     user_scheds = []
-    end_of_week = get_date() + timedelta(days=7)
+    end_of_week = get_date(2018, 4, 2) + timedelta(days=7)
     for user_obj in user.objects.order_by('uid'):
         sched = [t for t in time.objects
-                 .filter(start__date = get_date())
+                 .filter(start__date = get_date(2018, 4, 2))
                  .filter(timetype = SHIFT)
-                 .filter(start__gt = get_date())
+                 .filter(start__gt = get_date(2018, 4, 2))
                  .filter(start__lt = end_of_week)
                  .filter(uid = user_obj.uid)
                  .order_by('start')]
