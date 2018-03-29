@@ -73,8 +73,8 @@
             <th>
                 <nav aria-label="Week navigation">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="{% url 'schedule' previous_week.year previous_week.month previous_week.day %}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="{% url 'schedule' week_end_day.year week_end_day.month week_end_day.day %}">Next</a></li>
                     </ul>
                 </nav>
             </th>

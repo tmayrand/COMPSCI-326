@@ -52,16 +52,19 @@ def admin_dash(request):
                  **template()}
     )
 
-def schedule(request):
-    from_date = get_date()  # this has to update somehow??
-    date_format = "%A, %B %w %Y"
+def schedule(request, year, month, day):
+    from_date = get_date(year, month, day)  # this has to update somehow??
+    date_format = "%A, %B %d %Y"
     from_date_str = from_date.strftime(date_format)
-
+    to_date = get_date(year, month, day) + timedelta(days=7)
+    previous_week = get_date(year, month, day) - timedelta(days=7)
     return render(
         request,
         'catalog/schedule.html',
         context={**{'week_sched': get_week_schedule(from_date),
-                    'week_start_day': from_date_str},
+                    'week_start_day': from_date_str,
+                    'week_end_day': to_date,
+                    'previous_week': previous_week},
                  **template()}
     )
 
@@ -96,16 +99,17 @@ def get_current_user():
     # gets the first user right now
     return user.objects.all()[3]
 
-def get_date():
-    # right now just gets from the week that we have set up in data
-    return date(year=2018, month=4, day=2)
+def get_date(year_num:int, month_num:int, day_num:int):
+
+    return date(year=year_num, month=month_num, day=day_num)
 
 def get_week(convert_date: datetime):
-    return convert_date.date().isocalendar()[1]
+    return convert_date.date().isocalendar()[1]  # EDIT HERE TO CHANGE USER AND SEE DIFFERENT VIEWS
 
 def template():
     current_user = get_current_user()
-    return {"current_user": current_user, 'working': get_current_working(),
+    return {'current_user': current_user, 'working': get_current_working(),
+            'current_day': date(year=2018, month=4, day=2),  # right now just gets from the week that we have set up in data
             'USER': USER, 'ADMIN': ADMIN,
             'OVERTIME': OVERTIME, 'NO_OVERTIME': NO_OVERTIME,
             'ALL_VIEW': ALL_VIEW, 'ADMIN_VIEW': ADMIN_VIEW,
@@ -137,7 +141,7 @@ def is_working(uid_obj):
 
 def get_todays_schedule():
     return time.objects.filter(timetype=SHIFT).\
-        filter(start__date=get_date()).\
+        filter(start__date=get_date(2018, 4, 2)).\
         order_by('start')
 
 def get_week_schedule(start_date):

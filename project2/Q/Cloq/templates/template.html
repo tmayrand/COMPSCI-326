@@ -61,7 +61,7 @@
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'schedule' %}">
+                                <a class="nav-link" href="{% url 'schedule' current_day.year current_day.month current_day.day %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
