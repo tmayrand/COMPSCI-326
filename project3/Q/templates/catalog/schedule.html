@@ -1,0 +1,86 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+
+
+<!--<div class="pos-f-t">-->
+    <!--<div class="collapse" id="navbarToggleExternalContent">-->
+        <!--<div class="bg-dark p-4">-->
+            <!--<h4 class="text-white">Collapsed content</h4>-->
+            <!--<span class="text-muted">Toggleable via the navbar brand.</span>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<nav class="navbar navbar-dark bg-dark">-->
+        <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">-->
+            <!--<span class="navbar-toggler-icon"></span>-->
+        <!--</button>-->
+    <!--</nav>-->
+<!--</div>-->
+<h2>
+    Weekly Schedule
+    <br>
+</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">
+                Week of {{ week_start_day }}
+            </th>
+
+            <th scope="col">
+                Start
+            </th>
+            <th scope="col">
+                End
+            </th>
+            <th scope="col">
+                Notes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user_first, user_last, start_time, end_time, start_day, end_day in week_sched %}
+        <tr>
+            {% if user_first == current_user.firstname %}
+                <th>
+                    {{ start_day }}
+                </th>
+                <td>
+                    {{ start_time.time }}
+                </td>
+                <td>
+                    {{ end_time.time }}
+                </td>
+                <td>
+                    Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
+                </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+            <th>
+                <nav aria-label="Week navigation">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="{% url 'schedule' previous_week.year previous_week.month previous_week.day %}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="{% url 'schedule' week_end_day.year week_end_day.month week_end_day.day %}">Next</a></li>
+                    </ul>
+                </nav>
+            </th>
+        </tr>
+    </tfoot>
+</table>
+
+
+{% endblock %}
