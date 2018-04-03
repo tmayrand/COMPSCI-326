@@ -97,6 +97,20 @@ def availability(request):
         context={}
     )
 
+def login(request):
+    return render(
+                  request,
+                  'catalog/login.html',
+                  context={}
+                  )
+
+def logout(request):
+    return render(
+                  request,
+                  'catalog/logout.html',
+                  context={}
+                  )
+
 # Helper methods
 def get_current_user():
     # gets the first user right now

@@ -8,6 +8,8 @@ urlpatterns = [
     path('availability', views.availability, name = "availability"),
     # path('schedule', views.schedule, name = "schedule"),
     path('schedule/<int:year>/<int:month>/<int:day>/', views.schedule, name="schedule"),
-    path('admin_schedule', views.admin_schedule, name = "admin_schedule"),
-    path('settings', views.settings, name = "settings"),
+    path('admin_schedule', views.admin_schedule, name="admin_schedule"),
+    path('settings', views.settings, name="settings"),
+    path('login', views.login, name="login"),
+    path('logout', views.logout, name="logout"),
 ]
