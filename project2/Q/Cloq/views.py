@@ -118,7 +118,6 @@ def login(request):
     return render(request, 'catalog/user_dash.html', context)
 
 def logout(request):
-    logout(request)
     return render(
                   request,
                   'catalog/logout.html',
