@@ -118,3 +118,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = 'home'
+#AUTH_USER_MODEL = 'Cloq.user'
+AUTHENTICATION_BACKENDS = ('Cloq.backends.MyBackEnd', 'django.contrib.auth.backends.ModelBackend')

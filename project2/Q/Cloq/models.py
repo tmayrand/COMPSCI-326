@@ -2,6 +2,7 @@ from django.db import models
 from django import forms
 from datetime import datetime
 from django.core.validators import RegexValidator
+from django.contrib.auth.hashers import make_password
 
 class user(models.Model):
     """
@@ -30,7 +31,8 @@ class user(models.Model):
     phone_regex = RegexValidator(regex=r'^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$', message="Phone number must be entered in the format: '+1 (888) 888-8888'.")
     phone = models.CharField(validators=[phone_regex], max_length=20, help_text = "User phone number.", default="+1 (888) 888-8888")
     overtime = models.BooleanField(help_text = "Work overtime?")
-
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
     def __str__(self):
         return str(self.firstname) + " " + str(self.lastname)
 

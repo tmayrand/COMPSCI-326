@@ -16,18 +16,18 @@ from .models import *
 
 # Jane does these pages
 def dash(request):
-    # current_user = user.objects.all()[0]
-    print(get_current_user().usertype)
+    current_user = get_current_user(request)
+    #print(get_current_user().usertype)
     announcements = announcement.objects.all()
     today_times = get_todays_schedule()
     today_users = list()
-
     for today_time in today_times:
         today_users.append((user.objects.filter(uid=today_time.uid)[0].firstname,
                             user.objects.filter(uid=today_time.uid)[0].lastname,
                             today_time.uid,
                             today_time.start.time,
                             today_time.end.time))
+
     return render(
         request,
         'catalog/user_dash.html',
@@ -125,9 +125,18 @@ def logout(request):
                   )
 
 # Helper methods
-def get_current_user():
-    # gets the first user right now
-    return user.objects.all()[3]
+def get_current_user(request):
+    if request.user.is_authenticated:
+        try:
+            return user.objects.get(username=request.user.username)
+        except:
+            try:
+                return User.objects.get(username=request.user.username)
+            except:
+                return None
+            return None
+    else:
+        return None
 
 def get_date(year_num:int, month_num:int, day_num:int):
 

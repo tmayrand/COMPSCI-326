@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.dash, name = 'home'),
@@ -10,6 +11,6 @@ urlpatterns = [
     path('schedule/<int:year>/<int:month>/<int:day>/', views.schedule, name="schedule"),
     path('admin_schedule', views.admin_schedule, name="admin_schedule"),
     path('settings', views.settings, name="settings"),
-    path('login', views.login, name="login"),
-    path('logout', views.logout, name="logout"),
+    path('login', auth_views.login, {'template_name': 'catalog/login.html'}, name="login"),
+    path('logout', auth_views.logout, {'template_name': 'catalog/logout.html'}, name="logout"),
 ]
