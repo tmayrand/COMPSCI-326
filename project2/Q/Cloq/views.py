@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import (login as auth_login,  authenticate)
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.db.models import Q
 
 from Cloq.globalvars import *
 
@@ -110,7 +111,7 @@ def admin_schedule(request):
     return render(
         request,
         'catalog/admin_schedule.html',
-        context={**{'week_sched': get_week_schedule_by_user()},
+        context={**{'day_sched': get_day_schedule_by_user()},
                  **template(request)}
     )
 
@@ -125,7 +126,7 @@ def availability(request):
     return render(
         request,
         'catalog/availability.html',
-        context={**{},**template(request)}
+        context={**get_availability_for_user(request),**template(request)}
     )
 
 # Troy - Views for login/logout pages
@@ -236,11 +237,11 @@ def get_week_schedule(start_date):
 
 def time_subtract(start, finish):
 
-    d =finish - start
+    d = finish - start
     d = (d.seconds)
     return d
 
-def get_week_schedule_by_user():
+def get_day_schedule_by_user():
     user_scheds = []
     end_of_week = get_date(2018, 4, 2) + timedelta(days=7)
     for user_obj in user.objects.order_by('uid'):
@@ -266,3 +267,22 @@ def get_week_schedule_by_user():
                       bar_lengths]
         user_scheds.append(user_stuff)
     return user_scheds
+
+def get_availability_for_user(request):
+    current_uid = get_current_user(request).uid
+    week = [[],[],[],[],[],[],[]]
+    start_of_week = get_date(2018, 4, 2)
+    end_of_week = start_of_week + timedelta(days=7)
+    full_availability_sched = ([t for t in time.objects
+                               .filter(uid = current_uid)
+                               .filter(Q(timetype = UNAVAILABLE) | Q(timetype = REQUEST))
+                               .filter(start__gt = start_of_week)
+                               .filter(start__lt = end_of_week)
+                                .order_by('start')
+                              ])
+    bar_lengths= [[],[],[],[],[],[],[]]
+    for day in range(len(week)):
+        week[day].extend([t for t in full_availability_sched if (start_date is start_of_week+timedelta(days=day))])
+    return {'availability_sched': week}
+    
+
