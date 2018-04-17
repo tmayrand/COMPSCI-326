@@ -36,6 +36,7 @@ def dash(request):
         else:
             return redirect("login")
 
+        time_type.uid = user.uid
         time_type.start = datetime.now()
         time_type.end = datetime.now()
         time_type.save()
