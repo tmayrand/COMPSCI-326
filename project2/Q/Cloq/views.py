@@ -19,7 +19,30 @@ from .models import *
 def dash(request):
     if not request.user.is_authenticated:
         return redirect("login")
-    current_user = get_current_user(request)
+    popup = False
+    popupdata = ""
+    if request.method == 'POST':
+        clock_type = request.POST['clocktype'] #"in" if clock in, "out" if clock out
+        time_type = time()
+        if clock_type== 'in':
+            time_type.timetype = PUNCH_IN
+            popup = True
+            popupdata = "Clocked In!"
+
+        elif request.POST == 'out':
+            time_type.timetype = PUNCH_OUT
+            popup = True
+            popupdata = "Clocked Out!"
+        else:
+            return redirect("login")
+
+        time_type.uid = user.uid
+        time_type.start = datetime.now()
+        time_type.end = datetime.now()
+        time_type.save()
+
+
+    # current_user = get_current_user(request)
     #print(get_current_user().usertype)
     announcements = announcement.objects.all()
     today_times = get_todays_schedule()
@@ -36,7 +59,9 @@ def dash(request):
         'catalog/user_dash.html',
         context={**{'announcements': announcements,
                       'today_sched': today_times,
-                      'today_users': today_users},
+                      'today_users': today_users,
+                    'popup':popup,
+                    'popupdata':popupdata},
                    **template(request)}
     )
 
