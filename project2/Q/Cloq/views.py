@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.shortcuts import render
 from django.contrib.auth import (login as auth_login,  authenticate)
 from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 from Cloq.globalvars import *
 
@@ -16,6 +17,8 @@ from .models import *
 
 # Jane does these pages
 def dash(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
     current_user = get_current_user(request)
     #print(get_current_user().usertype)
     announcements = announcement.objects.all()
@@ -101,6 +104,9 @@ def availability(request):
 
 # Troy - Views for login/logout pages
 def login(request):
+    print("testestsetstst")
+    if request.user.is_authenticated:
+        return redirect("dash")
     _message = 'Please sign in'
     if request.method == 'POST':
         _username = request.POST['username']
@@ -109,13 +115,14 @@ def login(request):
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-                return HttpResponseRedirect(reverse('dashboard'))
+                return redirect('dash')
             else:
                 _message = 'Your account is not activated'
         else:
             _message = 'Invalid login, please try again.'
     context = {'message': _message}
-    return render(request, 'catalog/user_dash.html', context)
+    return render(request, 'catalog/login.html', context)
+    #return render(request, 'catalog/user_dash.html', context)
 
 def logout(request):
     return render(

@@ -5,22 +5,26 @@ from .models import user
 class MyBackEnd(object):
     def authenticate(self, **kwargs):
         try:
-            existing_user = User.objects.get(username=kwargs['username'])
+            existing_user = user.objects.get(username=kwargs['username'])
             print(existing_user)
             if check_password(kwargs['password'], existing_user.password):
                 print("passed")
-                return existing_user
-            else:
-                return None
-        except User.DoesNotExist:
-            print("trying")
-            try:
-                existing_user = user.objects.get(username=kwargs['username'])
-                print(existing_user)
-                if check_password(kwargs['password'], existing_user.password):
+                try:
+                    existing_user2 = User.objects.get(username=kwargs['username'])
+                    return existing_user2
+                except:
                     NewUser = User(username=kwargs['username'])
                     NewUser.save()
                     return NewUser
+            else:
+                return None
+        except:
+            print("trying auth db")
+            try:
+                existing_user = User.objects.get(username=kwargs['username'])
+                print(existing_user)
+                if check_password(kwargs['password'], existing_user.password):
+                    return existing_user
                 else:
                     return None
             except:
