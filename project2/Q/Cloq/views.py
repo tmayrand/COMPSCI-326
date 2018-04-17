@@ -114,6 +114,10 @@ def login(request):
         user = authenticate(username=_username, password=_password)
         if user is not None:
             if user.is_active:
+                try:
+                    dbuser = user.objects.get(username=_username)
+                except:
+                    return render(request, 'catalog/login.html', {'message': 'No account exists.'})
                 auth_login(request, user)
                 return redirect('dash')
             else:
