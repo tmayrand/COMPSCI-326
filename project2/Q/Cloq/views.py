@@ -118,14 +118,14 @@ def settings(request):
     return render(
         request,
         'catalog/user_settings.html',
-        context={}
+        context={**{},**template(request)}
     )
 
 def availability(request):
     return render(
         request,
         'catalog/availability.html',
-        context={}
+        context={**{},**template(request)}
     )
 
 # Troy - Views for login/logout pages
@@ -235,8 +235,9 @@ def get_week_schedule(start_date):
     return sched_objs
 
 def time_subtract(start, finish):
+
     d =finish - start
-    d = (d.seconds)/(7*3600)*100
+    d = (d.seconds)
     return d
 
 def get_week_schedule_by_user():
@@ -252,11 +253,14 @@ def get_week_schedule_by_user():
                  .order_by('start')]
         bar_lengths = []
         if sched:
-            last_t = dt(2016, 4,2,9,5,0,0,sched[0].start.tzinfo)
+            last_t = dt(2016, 4,2,9,0,0,0,sched[0].start.tzinfo)
             for t in sched:
-                bar_lengths.append([t, time_subtract(last_t, t.start),
-                                    time_subtract(t.start,t.end)])
+                bar_lengths.append([t, (time_subtract(last_t, t.start)),
+                                    (time_subtract(t.start,t.end))])
                 last_t = t.end
+                final_time = t
+            bar_lengths.append([final_time,(time_subtract(last_t, \
+                                                        dt(2016, 4,2,17,0,0,0,sched[0].start.tzinfo))), 0])
         user_stuff = [user_obj.firstname,
         user_obj.lastname,
                       bar_lengths]
