@@ -14,7 +14,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">You Are Clocked In</h5>
+                        <h5 class="modal-title" id="clockIn">You Are Clocked In</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -31,7 +31,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">You Are Clocked Out</h5>
+                        <h5 class="modal-title" id="clockOut">You Are Clocked Out</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -106,6 +106,10 @@
     </table>
   </div>
 
+    <script>
+    {#document.getElementById("clockin").onclick() = function() { alert("Clocked In!!!"); }#}
+    {#document.getElementById("clockout").onclick() = function() { alert("Clocked Out!!!"); }#}
+    </script>
 
 
   {% endblock %}

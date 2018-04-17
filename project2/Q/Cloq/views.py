@@ -34,7 +34,7 @@ def dash(request):
         context={**{'announcements': announcements,
                       'today_sched': today_times,
                       'today_users': today_users},
-                   **template()}
+                   **template(request)}
     )
 
 def admin_dash(request):
@@ -53,7 +53,7 @@ def admin_dash(request):
         context={**{'announcements': announcements,
                     'today_sched': today_times,
                     'today_users': today_users},
-                 **template()}
+                 **template(request)}
     )
 
 def schedule(request, year, month, day):
@@ -69,7 +69,7 @@ def schedule(request, year, month, day):
                     'week_start_day': from_date_str,
                     'week_end_day': to_date,
                     'previous_week': previous_week},
-                 **template()}
+                 **template(request)}
     )
 
 
@@ -82,7 +82,7 @@ def admin_schedule(request):
         request,
         'catalog/admin_schedule.html',
         context={**{'week_sched': get_week_schedule_by_user()},
-                 **template()}
+                 **template(request)}
     )
 
 def settings(request):
@@ -145,8 +145,8 @@ def get_date(year_num:int, month_num:int, day_num:int):
 def get_week(convert_date: datetime):
     return convert_date.date().isocalendar()[1]  # EDIT HERE TO CHANGE USER AND SEE DIFFERENT VIEWS
 
-def template():
-    current_user = get_current_user()
+def template(request):
+    current_user = get_current_user(request)
     return {'current_user': current_user, 'working': get_current_working(),
             'current_day': date(year=2018, month=4, day=2),  # right now just gets from the week that we have set up in data
             'USER': USER, 'ADMIN': ADMIN,
