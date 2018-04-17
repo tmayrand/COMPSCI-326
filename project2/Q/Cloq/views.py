@@ -104,21 +104,20 @@ def availability(request):
 
 # Troy - Views for login/logout pages
 def login(request):
-    print("testestsetstst")
     if request.user.is_authenticated:
         return redirect("dash")
     _message = 'Please sign in'
     if request.method == 'POST':
         _username = request.POST['username']
         _password = request.POST['password']
-        user = authenticate(username=_username, password=_password)
-        if user is not None:
-            if user.is_active:
+        xuser = authenticate(username=_username, password=_password)
+        if xuser is not None:
+            if xuser.is_active:
                 try:
                     dbuser = user.objects.get(username=_username)
                 except:
                     return render(request, 'catalog/login.html', {'message': 'No account exists.'})
-                auth_login(request, user)
+                auth_login(request, xuser)
                 return redirect('dash')
             else:
                 _message = 'Your account is not activated'
