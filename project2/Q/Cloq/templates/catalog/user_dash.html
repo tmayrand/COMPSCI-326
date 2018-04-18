@@ -7,42 +7,42 @@
         <br>
         <form method="post" id="clockin"> {% csrf_token %}
             <input type="hidden" value="in" name="clocktype">
-            <button type="button" name="clock-in" class="btn btn-primary btn-success" data-toggle="modal" data-target="#clockin">
+            <button type="submit" name="clock-in" class="btn btn-primary btn-success" data-target="#clockin">
                 Clock In
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="clockIn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="clockIn">You Are Clocked In</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{#            <div class="modal fade" id="clockIn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                <div class="modal-dialog" role="document">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h5 class="modal-title" id="clockIn">You Are Clocked In</h5>#}
+{#                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                <span aria-hidden="true">&times;</span>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
         </form>
         <form method="post" id="clockout"> {% csrf_token %}
             <input type="hidden" value="out" name="clocktype">
-            <button type="button" name="clock-out" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#clockout">
+            <button type="submit" name="clock-out" class="btn btn-primary btn-danger" data-target="#clockout">
                 Clock Out
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="clockOut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="clockOut">You Are Clocked Out</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{#            <div class="modal fade" id="clockOut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                <div class="modal-dialog" role="document">#}
+{#                    <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                            <h5 class="modal-title" id="clockOut">You Are Clocked Out</h5>#}
+{#                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                <span aria-hidden="true">&times;</span>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
         </form>
     </div>
     <br>

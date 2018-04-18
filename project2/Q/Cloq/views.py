@@ -23,23 +23,24 @@ def dash(request):
     popupdata = ""
     if request.method == 'POST':
         clock_type = request.POST['clocktype'] #"in" if clock in, "out" if clock out
-        time_type = time()
+
         if clock_type== 'in':
-            time_type.timetype = PUNCH_IN
             popup = True
             popupdata = "Clocked In!"
+            print("clockin %s", request.user.username)
+            NewTime = time(timetype=PUNCH_IN, start=datetime.now(), end=datetime.now(), uid=get_current_user(request).uid)
+            NewTime.save()
 
         elif request.POST == 'out':
-            time_type.timetype = PUNCH_OUT
             popup = True
             popupdata = "Clocked Out!"
+            print("clockout %s", request.user.username)
+            NewTime = time(timetype=PUNCH_OUT, start=datetime.now(), end=datetime.now(), uid=get_current_user(request).uid)
+            NewTime.save()
         else:
             return redirect("login")
 
-        time_type.uid = user.uid
-        time_type.start = datetime.now()
-        time_type.end = datetime.now()
-        time_type.save()
+
 
 
     # current_user = get_current_user(request)
