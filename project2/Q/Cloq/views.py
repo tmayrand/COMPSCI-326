@@ -21,24 +21,28 @@ def dash(request):
         return redirect("login")
     popup = False
     popupdata = ""
-    if request.method == 'POST':
-        clock_type = request.POST['clocktype'] #"in" if clock in, "out" if clock out
 
-        if clock_type== 'in':
+
+
+    if request.method == 'POST':
+        current_user = user.objects.filter(username=get_current_user(request).username)[0]
+        # clock_type = request.POST['clocktype'] #"in" if clock in, "out" if clock out
+
+        if request.POST.get("clocktype", "") == 'in':
             popup = True
             popupdata = "Clocked In!"
-            print("clockin %s", request.user.username)
-            NewTime = time(timetype=PUNCH_IN, start=datetime.now(), end=datetime.now(), uid=get_current_user(request).uid)
+            print("clockin ", current_user.username)
+            NewTime = time(timetype=PUNCH_IN, start=datetime.now(), end=datetime.now(), uid=current_user.uid)
             NewTime.save()
 
-        elif request.POST == 'out':
+        elif request.POST.get("clocktype", "") == 'out':
             popup = True
             popupdata = "Clocked Out!"
-            print("clockout %s", request.user.username)
-            NewTime = time(timetype=PUNCH_OUT, start=datetime.now(), end=datetime.now(), uid=get_current_user(request).uid)
+            print("clockout ", current_user.username)
+            NewTime = time(timetype=PUNCH_OUT, start=datetime.now(), end=datetime.now(), uid=current_user.uid)
             NewTime.save()
         else:
-            return redirect("login")
+            return redirect("logout")
 
 
 
@@ -184,7 +188,7 @@ def get_week(convert_date: datetime):
 def template(request):
     current_user = get_current_user(request)
     return {'current_user': current_user, 'working': get_current_working(),
-            'current_day': date(year=2018, month=4, day=2),  # right now just gets from the week that we have set up in data
+            'current_day': date(year=datetime.now().year, month=datetime.now().month, day=datetime.now().day),  # right now just gets from the week that we have set up in data
             'USER': USER, 'ADMIN': ADMIN,
             'OVERTIME': OVERTIME, 'NO_OVERTIME': NO_OVERTIME,
             'ALL_VIEW': ALL_VIEW, 'ADMIN_VIEW': ADMIN_VIEW,
@@ -216,7 +220,7 @@ def is_working(uid_obj):
 
 def get_todays_schedule():
     return time.objects.filter(timetype=SHIFT).\
-        filter(start__date=get_date(2018, 4, 2)).\
+        filter(start__date=get_date(datetime.now().year, datetime.now().month, datetime.now().month)).\
         order_by('start')
 
 def get_week_schedule(start_date):
