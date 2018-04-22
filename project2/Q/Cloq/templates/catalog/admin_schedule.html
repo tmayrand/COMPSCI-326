@@ -2,6 +2,11 @@
 
 {% block content %}
 {% load static %}
+
+<script>
+document.getElementById("admin_schedule").className += " active";
+</script>
+
 <link href= "{% static 'css/scheduler.css' %}" rel="stylesheet">
 <table>
     <td style="width:10%">

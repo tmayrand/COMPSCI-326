@@ -18,7 +18,7 @@ from .models import *
 
 # Jane does these pages
 def dash(request):
-    if not request.user.is_authenticated:
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")
     popup = False
     popupdata = ""
@@ -26,7 +26,8 @@ def dash(request):
 
 
     if request.method == 'POST':
-        current_user = user.objects.filter(username=get_current_user(request).username)[0]
+        #current_user = user.objects.filter(username=get_current_user(request).username)[0]
+        current_user = get_current_user(request)
         # clock_type = request.POST['clocktype'] #"in" if clock in, "out" if clock out
 
         if request.POST.get("clocktype", "") == 'in':
@@ -135,7 +136,7 @@ def availability(request):
 
 # Troy - Views for login/logout pages
 def login(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not (get_current_user(request) == None):
         return redirect("dash")
     _message = 'Please sign in'
     if request.method == 'POST':
@@ -171,10 +172,10 @@ def get_current_user(request):
         try:
             return user.objects.get(username=request.user.username)
         except:
-            try:
-                return User.objects.get(username=request.user.username)
-            except:
-                return None
+            #try:
+            #    return User.objects.get(username=request.user.username)
+            #except:
+            #    return None
             return None
     else:
         return None

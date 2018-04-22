@@ -39,14 +39,14 @@
                             {% if current_user.usertype == ADMIN %}
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_dash' %}">
+                                <a id="admin_dash" class="nav-link" href="{% url 'admin_dash' %}">
                                     <span data-feather="bar-chart-2"></span>
                                     Admin Dashboard
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link active" href="{% url 'dash' %}">
+                                <a id="dash" class="nav-link" href="{% url 'dash' %}">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
@@ -54,14 +54,14 @@
                             {% endif %}
                             {% if current_user.usertype == ADMIN %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_schedule' %}">
+                                <a id="admin_schedule" class="nav-link" href="{% url 'admin_schedule' %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'schedule' current_day.year current_day.month current_day.day %}">
+                                <a id="schedule" class="nav-link" href="{% url 'schedule' current_day.year current_day.month current_day.day %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
@@ -69,14 +69,14 @@
                             {% endif %}
                             {% if current_user.usertype == ADMIN %}
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_settings.html">
+                                <a id="admin_settings" class="nav-link" href="admin_settings.html">
                                     <span data-feather="settings"></span>
                                     Admin Settings
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'settings' %}">
+                                <a id="settings" class="nav-link" href="{% url 'settings' %}">
                                     <span data-feather="settings"></span>
                                     Settings
                                 </a>
