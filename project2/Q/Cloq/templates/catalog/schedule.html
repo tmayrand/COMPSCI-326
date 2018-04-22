@@ -19,10 +19,34 @@ document.getElementById("schedule").className += " active";
         <!--</button>-->
     <!--</nav>-->
 <!--</div>-->
-<h2>
-    Weekly Schedule
-    <br>
-</h2>
+    <table>
+        <td style="width:10%">
+            <button type="button" class="btn btn-outline-primary" onclick="toAvailiability()">Change Availability</button>
+        </td>
+        <td style="width:80%">
+            <nav aria-label="Scheduler">
+                <ul class="pagination justify-content-center pagination-lg">
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'schedule' previous_week.year previous_week.month previous_week.day %}">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Week of {{ week_start_day }}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'schedule' week_end_day.year week_end_day.month week_end_day.day %}">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </td>
+        <td style="width:10%">
+        </td>
+    </table>
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -54,33 +78,17 @@ document.getElementById("schedule").className += " active";
                     {{ end_time.time }}
                 </td>
                 <td>
-                    Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
+                    {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
                 </td>
         </tr>
         {% endfor %}
     </tbody>
-    <tfoot>
-        <tr>
-            <th>
-
-            </th>
-            <th>
-
-            </th>
-            <th>
-
-            </th>
-            <th>
-                <nav aria-label="Week navigation">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="{% url 'schedule' previous_week.year previous_week.month previous_week.day %}">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="{% url 'schedule' week_end_day.year week_end_day.month week_end_day.day %}">Next</a></li>
-                    </ul>
-                </nav>
-            </th>
-        </tr>
-    </tfoot>
 </table>
 
+    <script>
+    function toAvailiability() {
+        window.location = "{% url 'availability' %}";
+    }
+    </script>
 
 {% endblock %}

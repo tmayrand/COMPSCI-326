@@ -124,10 +124,11 @@ def settings(request):
     )
 
 def availability(request):
+    availability_sched = get_availability_for_user(get_current_user(request))
     return render(
         request,
         'catalog/availability.html',
-        context={**get_availability_for_user(request),**template(request)}
+        context={**{'availability_sched':availability_sched},**template(request)}
     )
 
 # Troy - Views for login/logout pages
@@ -270,21 +271,27 @@ def get_day_schedule_by_user():
         user_scheds.append(user_stuff)
     return user_scheds
 
-def get_availability_for_user(request):
-    current_uid = get_current_user(request).uid
-    week = [[],[],[],[],[],[],[]]
-    start_of_week = get_date(2018, 4, 2)
-    end_of_week = start_of_week + timedelta(days=7)
-    full_availability_sched = ([t for t in time.objects
-                               .filter(uid = current_uid)
-                               .filter(Q(timetype = UNAVAILABLE) | Q(timetype = REQUEST))
-                               .filter(start__gt = start_of_week)
-                               .filter(start__lt = end_of_week)
-                                .order_by('start')
-                              ])
-    bar_lengths= [[],[],[],[],[],[],[]]
-    for day in range(len(week)):
-        week[day].extend([t for t in full_availability_sched if (start_date is start_of_week+timedelta(days=day))])
-    return {'availability_sched': week}
-    
+def get_availability_for_user(current_user):
+    # Note: Availability and Conflicts are in the week of April 1
 
+    start_date = date(year=2018,month=4,day=1)
+    end_date = start_date+timedelta(days=7)
+    shifts = time.objects.filter(uid=current_user.uid). \
+        filter(start__gt=start_date).filter(end__lt=end_date).exclude(timetype=PUNCH_IN).exclude(timetype=PUNCH_OUT).exclude(timetype=SHIFT).order_by('start')
+
+    # returning list weekdays with times in each. Starts with Monday
+    week_tuples = [[None]]*7
+
+    for shift in shifts:
+        week_tuples[shift.start.date().weekday()].append( (timetype_to_string(shift.timetype), shift.start, shift.end) )
+
+    return week_tuples
+
+def timetype_to_string(x: int):
+    return {
+        1: "PUNCH_IN",
+        2: "PUNCH_OUT",
+        3: "SHIFT",
+        4: "UNAVAILABLE",
+        5: "REQUEST"
+    }.get(x, "NONE")
