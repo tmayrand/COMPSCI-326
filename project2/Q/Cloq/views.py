@@ -46,11 +46,6 @@ def dash(request):
         else:
             return redirect("logout")
 
-
-
-
-    # current_user = get_current_user(request)
-    #print(get_current_user().usertype)
     announcements = announcement.objects.all()
     today_times = get_todays_schedule()
     today_users = list()
@@ -92,6 +87,7 @@ def admin_dash(request):
     )
 
 def schedule(request, year, month, day):
+
     from_date = get_date(year, month, day)  # this has to update somehow??
     date_format = "%A, %B %d %Y"
     from_date_str = from_date.strftime(date_format)
@@ -100,7 +96,7 @@ def schedule(request, year, month, day):
     return render(
         request,
         'catalog/schedule.html',
-        context={**{'week_sched': get_week_schedule(from_date),
+        context={**{'week_sched': get_week_schedule(from_date, get_current_user(request)),
                     'week_start_day': from_date_str,
                     'week_end_day': to_date,
                     'previous_week': previous_week},
@@ -189,6 +185,7 @@ def get_week(convert_date: datetime):
 
 def template(request):
     current_user = get_current_user(request)
+    print("User =", current_user.uid)
     return {'current_user': current_user, 'working': get_current_working(),
             'current_day': date(year=datetime.now().year, month=datetime.now().month, day=datetime.now().day),  # right now just gets from the week that we have set up in data
             'USER': USER, 'ADMIN': ADMIN,
@@ -225,19 +222,19 @@ def get_todays_schedule():
         filter(start__date=get_date(datetime.now().year, datetime.now().month, datetime.now().month)).\
         order_by('start')
 
-def get_week_schedule(start_date):
+def get_week_schedule(start_date, current_user):
     sched_objs = list()
-    end_of_week = get_date(2018, 4, 2) + timedelta(days=7)
-    for time_obj in time.objects.filter(timetype=SHIFT) \
-    .filter(start__gt=get_date(2018, 4, 2)) \
+    end_of_week = start_date + timedelta(days=7)
+    for time_obj in time.objects.filter(timetype=SHIFT, uid=current_user.uid) \
+    .filter(start__gt=start_date) \
     .filter(start__lt=end_of_week) \
-    .order_by('uid'):
+    .order_by('start'):
         # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
         # this is a stupid tuple. Template parsing is not impressive.
-        sched_objs.append( (user.objects.filter(uid=time_obj.uid)[0].firstname, \
-                            user.objects.filter(uid=time_obj.uid)[0].lastname, \
-                            time_obj.start, time_obj.end, time_obj.start.strftime("%A"), \
-                            time_obj.end.strftime("%A")) )
+        sched_objs.append((time_obj.start, \
+                            time_obj.end, \
+                            time_obj.start.strftime("%A"), \
+                            time_obj.end.strftime("%A")))
     return sched_objs
 
 def time_subtract(start, finish):

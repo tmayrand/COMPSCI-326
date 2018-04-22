@@ -42,9 +42,8 @@ document.getElementById("schedule").className += " active";
         </tr>
     </thead>
     <tbody>
-        {% for user_first, user_last, start_time, end_time, start_day, end_day in week_sched %}
+        {% for start_time, end_time, start_day, end_day in week_sched %}
         <tr>
-            {% if user_first == current_user.firstname %}
                 <th>
                     {{ start_day }}
                 </th>
@@ -57,7 +56,6 @@ document.getElementById("schedule").className += " active";
                 <td>
                     Work in LC {% if start_time.day != end_time.day %}NOTE: The shift ends on {{end_time.day}} {% endif %}
                 </td>
-            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
