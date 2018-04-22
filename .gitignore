@@ -3,7 +3,7 @@
 .idea/
 .DS_Store
 COMPSCI-326-TEAM-Q.iml
-
+db.sqlite3
 *.pyc
 
 
