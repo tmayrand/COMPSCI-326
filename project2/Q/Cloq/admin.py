@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from .models import user, announcement, time
 
 class userForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, help_text="Change user password (encrypted and hidden)")
+    password = forms.CharField(required = False, widget=forms.PasswordInput(), help_text="Change user password (encrypted and hidden)")
     class Meta:
         model = user
         exclude = []
@@ -19,12 +19,17 @@ class userAdmin(admin.ModelAdmin):
               'phone', ('overtime', 'notification')]
     exclude = []
     def save_model(self, request, obj, form, change):
-        if obj.pk:
-            orig_obj = user.objects.get(pk=obj.pk)
-            if obj.password != orig_obj.password:
+        print(obj.password == "")
+        if obj.password != "":
+            if obj.pk:
+                orig_obj = user.objects.get(pk=obj.pk)
+                if obj.password != orig_obj.password:
+                    obj.set_password(obj.password)
+            else:
                 obj.set_password(obj.password)
         else:
-            obj.set_password(obj.password)
+            if obj.pk:
+                obj.password = user.objects.get(pk=obj.pk).password
         obj.save()
     form = userForm
 

@@ -4,7 +4,7 @@ from django.contrib.auth import (login as auth_login,  authenticate)
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.db.models import Q
-
+from django.contrib.auth.hashers import make_password
 from Cloq.globalvars import *
 
 from datetime import date
@@ -14,6 +14,7 @@ from datetime import datetime as dt
 
 # Create your views here.
 
+from .forms import *
 from .models import *
 
 # Jane does these pages
@@ -68,6 +69,8 @@ def dash(request):
     )
 
 def admin_dash(request):
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
     announcements = announcement.objects.all()
     today_times = get_todays_schedule()
     today_users = list()
@@ -87,7 +90,8 @@ def admin_dash(request):
     )
 
 def schedule(request, year, month, day):
-
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
     from_date = get_date(year, month, day)  # this has to update somehow??
     date_format = "%A, %B %d %Y"
     from_date_str = from_date.strftime(date_format)
@@ -109,6 +113,8 @@ def schedule(request, year, month, day):
 # Lmk. the css for dash is implicitly included
 
 def admin_schedule(request):
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
     return render(
         request,
         'catalog/admin_schedule.html',
@@ -117,13 +123,54 @@ def admin_schedule(request):
     )
 
 def settings(request):
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
+    curuser = get_current_user(request)
+    request.POST._mutable = True
+    passWarning = "none"
+    passSuccess = "none"
+    if "password" in request.POST:
+        if request.POST["password"] == '':
+            request.POST["password"] = curuser.password
+        else:
+            if request.POST["password"] == request.POST["cpassword"]:
+                request.POST["password"] = make_password(request.POST["password"])
+                passSuccess = "inherit"
+            else:
+                passWarning = "inherit"
+    if "username" in request.POST:
+        request.POST["username"] = curuser.username
+    form = settingsForm(request.POST or None, instance=curuser)
+    if form.is_valid():
+        form.save()
+    ot = "checked"
+    notot = ""
+    notif = "checked"
+    if(not curuser.overtime):
+        ot = ""
+        notot = "checked"
+    if(not curuser.notification):
+        notif = ""
     return render(
         request,
         'catalog/user_settings.html',
-        context={**{},**template(request)}
+        context={**{'firstname': curuser.firstname,
+            'lastname': curuser.lastname,
+            'username': curuser.username,
+            'email': curuser.email,
+            'pronoun': curuser.pronoun,
+            'phone': curuser.phone,
+            'overtime': ot,
+            'notovertime': notot,
+            'notification': notif,
+            'form': form,
+            'warn': passWarning,
+            'success': passSuccess},**template(request)}
     )
 
 def availability(request):
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
     availability_sched = get_availability_for_user(get_current_user(request))
     return render(
         request,
