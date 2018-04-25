@@ -176,6 +176,52 @@ def settings(request):
             'success': passSuccess},**template(request)}
     )
 
+def admin_settings(request):
+    if (not request.user.is_authenticated) or get_current_user(request) == None:
+        return redirect("login")
+    curuser = get_current_user(request)
+    request.POST._mutable = True
+    passWarning = "none"
+    passSuccess = "none"
+    if "password" in request.POST:
+        if request.POST["password"] == '':
+            request.POST["password"] = curuser.password
+        else:
+            if request.POST["password"] == request.POST["cpassword"]:
+                request.POST["password"] = make_password(request.POST["password"])
+                passSuccess = "inherit"
+            else:
+                passWarning = "inherit"
+    if "username" in request.POST:
+        request.POST["username"] = curuser.username
+    form = settingsForm(request.POST or None, instance=curuser)
+    if form.is_valid():
+        form.save()
+    ot = "checked"
+    notot = ""
+    notif = "checked"
+    if(not curuser.overtime):
+        ot = ""
+        notot = "checked"
+    if(not curuser.notification):
+        notif = ""
+    return render(
+        request,
+        'catalog/admin_settings.html',
+        context={**{'firstname': curuser.firstname,
+            'lastname': curuser.lastname,
+            'username': curuser.username,
+            'email': curuser.email,
+            'pronoun': curuser.pronoun,
+            'phone': curuser.phone,
+            'overtime': ot,
+            'notovertime': notot,
+            'notification': notif,
+            'form': form,
+            'warn': passWarning,
+            'success': passSuccess},**template(request)}
+    )
+
 def availability(request):
     if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")

@@ -10,6 +10,7 @@ urlpatterns = [
     path('schedule/<int:year>/<int:month>/<int:day>/', views.schedule, name="schedule"),
     path('admin_schedule/<int:year>/<int:month>/<int:day>/', views.admin_schedule, name="admin_schedule"),
     path('settings', views.settings, name="settings"),
+    path('admin_settings', views.admin_settings, name="admin_settings"),
     path('login', views.login, name="login"),
     path('logout', auth_views.logout, {'template_name': 'catalog/logout.html'}, name="logout"),
 ]

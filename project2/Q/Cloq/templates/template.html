@@ -69,7 +69,7 @@
                             {% endif %}
                             {% if current_user.usertype == ADMIN %}
                             <li class="nav-item">
-                                <a id="admin_settings" class="nav-link" href="admin_settings.html">
+				    <a id="admin_settings" class="nav-link" href="{% url 'admin_settings' %}">
                                     <span data-feather="settings"></span>
                                     Admin Settings
                                 </a>
