@@ -317,7 +317,7 @@ def get_day_schedule_by_user(date):
                 if tstart.hour < start_of_day.hour:
                     tstart = start_of_day
                 tend = t.end - timedelta(hours = 4)
-                if tend.hour > end_of_day.hour:
+                if tend.hour >= end_of_day.hour:
                     tend = end_of_day
                 bar_lengths.append([[tstart.time, tend.time], (time_subtract(last_t, tstart)),
                                     (time_subtract(tstart,tend))])
