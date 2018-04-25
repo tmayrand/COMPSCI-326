@@ -301,25 +301,31 @@ def time_subtract(start, finish):
 
 def get_day_schedule_by_user(date):
     user_scheds = []
-    end_of_week = date + timedelta(days=7)
     for user_obj in user.objects.order_by('uid'):
         sched = [t for t in time.objects
                  .filter(start__date = date)
                  .filter(timetype = SHIFT)
-                 .filter(start__gt = date)
-                 .filter(start__lt = end_of_week)
                  .filter(uid = user_obj.uid)
                  .order_by('start')]
         bar_lengths = []
         if sched:
-            last_t = dt.combine(date,tm(9,0,0,0,sched[0].start.tzinfo))
+            start_of_day = dt.combine(date,tm(9,0,0,0,sched[0].start.tzinfo))
+            end_of_day  = dt.combine(date,tm(17,0,0,0,sched[0].start.tzinfo))
+            last_t = start_of_day
             for t in sched:
-                bar_lengths.append([t, (time_subtract(last_t, t.start)),
-                                    (time_subtract(t.start,t.end))])
-                last_t = t.end
+                tstart = t.start - timedelta(hours=4)
+                if tstart.hour < start_of_day.hour:
+                    tstart = start_of_day
+                tend = t.end - timedelta(hours = 4)
+                if tend.hour > end_of_day.hour:
+                    tend = end_of_day
+                bar_lengths.append([[tstart.time, tend.time], (time_subtract(last_t, tstart)),
+                                    (time_subtract(tstart,tend))])
+                last_t = tend
                 final_time = t
-            bar_lengths.append([final_time,(time_subtract(last_t, \
-                                                          dt.combine(date,tm(17,0,0,0),sched[0].start.tzinfo))), 0])
+
+            bar_lengths.append([[final_time.start.time, 0],(time_subtract(last_t, \
+                                                                          end_of_day)), 0])
         user_stuff = [user_obj.firstname,
         user_obj.lastname,
                       bar_lengths]

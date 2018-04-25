@@ -64,7 +64,7 @@ document.getElementById("admin_schedule").className += " active";
             <div class="progress">
                 {% for t in user.2%}
                 <div class="progress-bar filler" role="progressbar" style="width: {{t.1}}%"></div>
-                <div class="progress-bar" role="progressbar" style="width: {{t.2}}%">{{t.0.start.time}} - {{t.0.end.time}}</div>
+                <div class="progress-bar" role="progressbar" style="width: {{t.2}}%">{{t.0.0}} - {{t.0.1}}</div>
                 {%endfor%}
             </div>
         </td>
