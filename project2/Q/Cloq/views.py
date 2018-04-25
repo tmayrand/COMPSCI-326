@@ -9,7 +9,7 @@ from Cloq.globalvars import *
 
 from datetime import date
 from datetime import timedelta
-from datetime import time
+from datetime import time as tm
 from datetime import datetime as dt
 
 # Create your views here.
@@ -112,13 +112,21 @@ def schedule(request, year, month, day):
 # Note: Make sure they have the css pages they need. Sometimes there are special css pages.
 # Lmk. the css for dash is implicitly included
 
-def admin_schedule(request):
+def admin_schedule(request, year, month, day):
     if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")
+    date = get_date(year, month, day)  # this has to update somehow??
+    date_format = "%A, %B %d %Y"
+    date_str = date.strftime(date_format)
+    previous_date = get_date(year, month, day) - timedelta(days=1)
+    next_date = get_date(year, month, day) + timedelta(days=1)
     return render(
         request,
         'catalog/admin_schedule.html',
-        context={**{'day_sched': get_day_schedule_by_user()},
+        context={**{'day_sched': get_day_schedule_by_user(date),
+                    'day': date_str,
+                    'yesterday': previous_date,
+                    'tomorrow': next_date},
                  **template(request)}
     )
 
@@ -291,27 +299,27 @@ def time_subtract(start, finish):
     d = (d.seconds)
     return d
 
-def get_day_schedule_by_user():
+def get_day_schedule_by_user(date):
     user_scheds = []
-    end_of_week = get_date(2018, 4, 2) + timedelta(days=7)
+    end_of_week = date + timedelta(days=7)
     for user_obj in user.objects.order_by('uid'):
         sched = [t for t in time.objects
-                 .filter(start__date = get_date(2018, 4, 2))
+                 .filter(start__date = date)
                  .filter(timetype = SHIFT)
-                 .filter(start__gt = get_date(2018, 4, 2))
+                 .filter(start__gt = date)
                  .filter(start__lt = end_of_week)
                  .filter(uid = user_obj.uid)
                  .order_by('start')]
         bar_lengths = []
         if sched:
-            last_t = dt(2016, 4,2,9,0,0,0,sched[0].start.tzinfo)
+            last_t = dt.combine(date,tm(9,0,0,0,sched[0].start.tzinfo))
             for t in sched:
                 bar_lengths.append([t, (time_subtract(last_t, t.start)),
                                     (time_subtract(t.start,t.end))])
                 last_t = t.end
                 final_time = t
             bar_lengths.append([final_time,(time_subtract(last_t, \
-                                                        dt(2016, 4,2,17,0,0,0,sched[0].start.tzinfo))), 0])
+                                                          dt.combine(date,tm(17,0,0,0),sched[0].start.tzinfo))), 0])
         user_stuff = [user_obj.firstname,
         user_obj.lastname,
                       bar_lengths]
