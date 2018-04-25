@@ -54,7 +54,7 @@
                             {% endif %}
                             {% if current_user.usertype == ADMIN %}
                             <li class="nav-item">
-                                <a id="admin_schedule" class="nav-link" href="{% url 'admin_schedule' %}">
+                                <a id="admin_schedule" class="nav-link" href="{% url 'admin_schedule' current_day.year current_day.month current_day.day %}">
                                     <span data-feather="calendar"></span>
                                     Schedule
                                 </a>
