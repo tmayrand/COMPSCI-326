@@ -4,6 +4,7 @@ from django.contrib.auth import (login as auth_login,  authenticate)
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.db.models import *
 from django.contrib.auth.hashers import make_password
 from Cloq.globalvars import *
 
@@ -13,7 +14,6 @@ from datetime import time as tm
 from datetime import datetime as dt
 
 # Create your views here.
-
 from .forms import *
 from .models import *
 
@@ -22,8 +22,19 @@ def dash(request):
     if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")
     popup = False
-    popupdata = ""
+    popupdata = "" 
+    punch_status = ""
 
+    last_name = request.user.username[1:].capitalize()
+    current_worker = user.objects.all().filter(Q(lastname=last_name))[0]
+    time_shift = time.objects.all().filter(Q(uid=current_worker.uid), Q(timetype=1) | Q(timetype=2)).order_by("-tid")
+    if len(time_shift) == 0:
+      punch_status = "clocked out"
+    elif time_shift[0].timetype == 1:
+      punch_status = "clocked in"
+    else: 
+      punch_status = "clocked out"
+     
 
 
     if request.method == 'POST':
@@ -34,6 +45,7 @@ def dash(request):
         if request.POST.get("clocktype", "") == 'in':
             popup = True
             popupdata = "Clocked In!"
+            punch_status = "clocked in"
             print("clockin ", current_user.username)
             NewTime = time(timetype=PUNCH_IN, start=datetime.now(), end=datetime.now(), uid=current_user.uid)
             NewTime.save()
@@ -41,6 +53,7 @@ def dash(request):
         elif request.POST.get("clocktype", "") == 'out':
             popup = True
             popupdata = "Clocked Out!"
+            punch_status = "clocked out"
             print("clockout ", current_user.username)
             NewTime = time(timetype=PUNCH_OUT, start=datetime.now(), end=datetime.now(), uid=current_user.uid)
             NewTime.save()
@@ -65,12 +78,31 @@ def dash(request):
                       'today_users': today_users,
                     'popup':popup,
                     'popupdata':popupdata},
+                    'punch_status':punch_status,
                    **template(request)}
     )
 
 def admin_dash(request):
     if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")
+    last_name = request.user.username[1:].capitalize()
+    current_worker = user.objects.all().filter(Q(lastname=last_name))[0]
+    usertype = ""
+    if current_worker.usertype == 1:
+      return redirect("dash")
+    if request.method == "POST":
+      if request.POST.get('usertype') == "Admins Only":
+        usertype = 2
+      else:
+        usertype = 1
+      post_copy = request.POST.copy()
+      post_copy["usertype"] = usertype;
+      form = annoucementsForm(post_copy)
+      if form.is_valid():
+        form.save()
+        return redirect('admin_dash')
+      
+
     announcements = announcement.objects.all()
     today_times = get_todays_schedule()
     today_users = list()
@@ -287,7 +319,6 @@ def get_week(convert_date: datetime):
 
 def template(request):
     current_user = get_current_user(request)
-    print("User =", current_user.uid)
     return {'current_user': current_user, 'working': get_current_working(),
             'current_day': date(year=datetime.now().year, month=datetime.now().month, day=datetime.now().day),  # right now just gets from the week that we have set up in data
             'USER': USER, 'ADMIN': ADMIN,

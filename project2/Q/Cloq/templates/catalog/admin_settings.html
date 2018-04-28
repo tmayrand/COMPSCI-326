@@ -1,0 +1,197 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<script>
+document.getElementById("settings").className += " active";
+</script>
+
+<h1>Admin Settings</h1>
+<div class="alert alert-danger" style="display:{{warn}};"><strong>Password not changed</strong>, your new password and confirmation password did not match.</div>
+<div class="alert alert-success" style="display:{{success}};"><strong>Password successfully changed!</strong></div>
+    <form action="" method="post">
+	    {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="id_firstname">First Name</label>
+		<input type="text" name="firstname" maxlength="100" id="id_firstname" class="form-control" placeholder="First Name" value="{{firstname}}" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_lastname">Last Name</label>
+		<input type="text" name="lastname" maxlength="100" class="form-control" id="id_lastname" placeholder="Last Name" value="{{lastname}}" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_username">Username</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                    </div>
+		    <input type="text" name="username" maxlength="30" id="id_username" class="form-control" placeholder="Username" aria-describedby="inputGroupPrepend2" value="{{username}}" readonly>
+                </div>
+            </div>
+        </div>
+	<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="changePasswordModalTitle">Change Password</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+	<div class="form-group">
+		<label for="id_password">New Password</label>
+		<input type="password" maxlength="255" id="id_password" name="password" value="" class="form-control" placeholder="New Password">
+		<label for="id_cpassword">Confirm New Password</label>
+		<input type="password" maxlength="255" id="id_cpassword" name="cpassword" value="" class="form-control" placeholder="Confirm New Password">
+	</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="window.location.href = window.location.href;">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+  <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="accountModalTitle">Create New User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputFName">First Name</label>
+                <input type="text" class="form-control" id="inputFName" placeholder="Ernest">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputLName">Last Name</label>
+                <input type="text" class="form-control" id="inputLName" placeholder="Thornhill">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputAddress">Username</label>
+                <input type="username" class="form-control" id="inputUsername" placeholder="ethornhill">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputLName">Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Shhh, its a secret">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Email Address</label>
+              <input type="email" class="form-control" id="inputEmailAddress" placeholder="ethornhill@landing.co">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Subscribe to notifications
+                  </label>
+                </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputAddress">Phone</label>
+                <input type="phone" class="form-control" id="inputPhone" placeholder="+1 (888) 888-8888">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputLName">Pronouns</label>
+                <input type="text" class="form-control" id="inputPronoun" placeholder="they/them/theirs">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputUsertype">User Type</label>
+                <select id="inputUsertype" class="form-control">
+                  <option selected>Select...</option>
+                  <option>1 - User</option>
+                  <option>2 - Admin</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-md-6 pt-0">Overtime?</legend>
+                    <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="overtimeModal" id="inputOT1" value="True" {{overtime}}>
+                        <label class="form-check-label" for="inputOT1">
+                          Yes
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="overtimeModal" id="inputOT2" value="False" {{notovertime}}>
+                        <label class="form-check-label" for="inputOT2">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick="window.location.href = window.location.href;">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+        <div class="form-group">
+            <label for="id_email">Email Address</label>
+	    <input type="email" maxlength="254" name="email" class="form-control" id="id_email" aria-describedby="emailHelp" placeholder="Enter email" value="{{email}}">
+            <small id="emailHelp" class="form-text text-muted"><div class="form-check">
+			    <input type="checkbox" name="notification" class="form-check-input" id="id_notification" {{notification}}>
+                <label class="form-check-label" for="id_notification">Subscribe to notifications</label>
+            </div></small>
+        </div>
+        <div class="form-group row">
+            <label for="id_pronoun" class="col-sm-2 col-form-label col-form-label-sm">Pronouns:</label>
+            <div class="col-sm-10">
+		    <input type="text" id="id_pronoun" name="pronoun" maxlength="30" class="form-control form-control-sm" placeholder="xie/xier/xiers" value="{{pronoun}}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="id_phone" class="col-sm-2 col-form-label col-form-label-sm">Phone Number</label>
+            <div class="col-sm-10">
+		    <input type="text" id="id_phone" maxlength="20" name="phone" class="form-control form-control-sm" placeholder="+1 (XXX)-XXX-XXXX" value="{{phone}}">
+            </div>
+	</div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Do you want to work overtime?</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+			    <input class="form-check-input" type="radio" name="overtime" id="id_overtime_1" value="True" {{overtime}}>
+                        <label class="form-check-label" for="id_overtime_1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+			    <input class="form-check-input" type="radio" name="overtime" id="id_overtime_0" value="False" {{notovertime}}>
+                        <label class="form-check-label" for="id_overtime_0">
+                            No
+                        </label>
+                    </div>
+		</div>
+            </div>
+        </fieldset>
+        <!--<div class="form-group">
+            <label for="exampleFormControlTextarea1">Message to manager</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+	</div>-->
+	{{form.errors}}
+	{{form.non_field_errors}}
+	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#passwordModal">Change Password</button>
+  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#accountModal">Create new user</button>
+  <button type="button" class="btn btn-outline-secondary">Payroll History</button>
+  <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+{% endblock %}

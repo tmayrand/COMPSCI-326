@@ -5,8 +5,7 @@
 <script>
 document.getElementById("dash").className += " active";
 </script>
-
-<h2>Hi {{ current_user.firstname }}, you are currently {% if current_user.uid in working%} clocked in. {% else %} clocked out. {% endif %}</h2>
+<h2>Hi {{ current_user.firstname }}, you are currently {{punch_status}}.</h2>
     <div class="container-fluid">
         <br>
 	<table><tr><td>

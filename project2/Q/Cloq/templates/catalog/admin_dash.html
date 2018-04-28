@@ -57,27 +57,28 @@ document.getElementById("admin_dash").className += " active";
                           </button>
                       </div>
                       <div class="modal-body">
-                          <form>
+                          <form action="" method="post">
+                              {% csrf_token %}
                               <div class="form-group">
                                   <label for="announcement-name" class="col-form-label">Title:</label>
-                                  <input type="text" class="form-control" id="announcement-name">
+                                  <input type="text" class="form-control" name="title" id="announcement-name" required>
                               </div>
                               <div class="form-group">
                                   <label for="announcement-text" class="col-form-label">Message:</label>
-                                  <textarea class="form-control" id="announcement-text"></textarea>
+                                  <textarea class="form-control" name ="text" id="announcement-text" value="{{text}}" required></textarea>
                               </div>
                               <div class="form-group">
                                   <label for="selectWhoSee">Who can see:</label>
-                                  <select class="form-control" id="selectWhoSee">
+                                  <select class="form-control" id="selectWhoSee" name="usertype" value ="{{usertype}}" required>
                                       <option>Admins Only</option>
                                       <option>Everyone</option>
                                   </select>
                               </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <input type="submit" class="btn btn-primary" value ="Submit Annoucement">
+                              </div>
                           </form>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Submit Annoucement</button>
                       </div>
                   </div>
               </div>
