@@ -93,13 +93,18 @@ def schedule(request, year, month, day):
     from_date_str = from_date.strftime(date_format)
     to_date = get_date(year, month, day) + timedelta(days=7)
     previous_week = get_date(year, month, day) - timedelta(days=7)
+    week_sched = get_week_schedule(from_date, get_current_user(request))
+    week_sched1 = get_week_schedule_percent(from_date, get_current_user(request))
+
     return render(
         request,
         'catalog/schedule.html',
-        context={**{'week_sched': get_week_schedule(from_date, get_current_user(request)),
+        context={**{'week_sched': week_sched,
+                    'week_sched1' : week_sched1,
                     'week_start_day': from_date_str,
                     'week_end_day': to_date,
-                    'previous_week': previous_week},
+                    'previous_week': previous_week,
+                    'daysOfWeek': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']},
                  **template(request)}
     )
 
@@ -238,6 +243,58 @@ def get_week_schedule(start_date, current_user):
                             time_obj.end.strftime("%A")))
     return sched_objs
 
+def get_week_schedule_percent(start_date, current_user):
+    sched_objs = list()
+    end_of_week = start_date + timedelta(days=7)
+    for time_obj in time.objects.filter(timetype=SHIFT, uid=current_user.uid) \
+            .filter(start__gt=start_date) \
+            .filter(start__lt=end_of_week) \
+            .order_by('start'):
+        # .filter(start__lt=(get_date()+datetime.timedelta(days=7))
+        # this is a stupid tuple. Template parsing is not impressive.
+        sched_objs.append((time_obj.start, \
+                           time_obj.end))
+    week_tuples = [[None]]*7   # [[(20,true),(30,false)],[],[],...]
+
+    day = 0
+    while (day < 7):
+        todays_times = list(filter(lambda x: x[0].weekday == day, sched_objs))
+        i = 0
+        time_total = time(9,0)
+        for shift_start, shift_end in todays_times:
+
+            if (shift_start.time() > time_total):
+                time_delta = time_subtract_percent(time_total,shift_start.time())
+                week_tuples[day].append((time_delta, False))
+                i += timedelta
+                time_total = shift_start.time()
+
+            time_delta = time_subtract_percent(shift_start,shift_end)
+            week_tuples[day].append((time_delta, True))
+            i += timedelta
+            time_total = shift_end.time()
+
+        if time_total < time(17,0):
+            time_delta = time_subtract_percent(time_total,time(17,0))
+            week_tuples[day].append((time_delta, False))
+            i += time_delta
+
+        assert(i == 120)
+        day += 1
+
+    return week_tuples
+
+
+
+def time_subtract_percent(start, finish):
+    # Convert to Unix timestamp
+    start_ts = time.mktime(start.timetuple())
+    finish_ts = time.mktime(finish.timetuple())
+
+    # They are now seconds, subtract and then divide by 60 to get minutes. The extra part is to convert to 10% per hour
+    return float((finish_ts-start_ts) / 60 * (15/60))
+
+
 def time_subtract(start, finish):
 
     d = finish - start
@@ -287,7 +344,7 @@ def get_availability_for_user(current_user):
 
     return week_tuples
 
-def timetype_to_string(x: int):
+def timetype_to_string(x: int): # For nice information to pull in templates
     return {
         1: "PUNCH_IN",
         2: "PUNCH_OUT",
@@ -295,3 +352,10 @@ def timetype_to_string(x: int):
         4: "UNAVAILABLE",
         5: "REQUEST"
     }.get(x, "NONE")
+
+class time(datetime.time()):
+    def __le__(time2: time):
+        return (this.start.hour < time2.start.hour) or \
+               ((this.start.hour == time2.start.hour) and (this.start.minute < time2.start.minute)) or \
+               ((this.start.hour == time2.start.hour) and (this.start.minute == time2.start.minute) and (this.start.second < time2.start.second))
+
