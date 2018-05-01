@@ -9,8 +9,11 @@ document.getElementById("settings").className += " active";
 <h1>Admin Settings</h1>
 <div class="alert alert-danger" style="display:{{warn}};"><strong>Password not changed</strong>, your new password and confirmation password did not match.</div>
 <div class="alert alert-success" style="display:{{success}};"><strong>Password successfully changed!</strong></div>
-    <form action="" method="post">
-	    {% csrf_token %}
+
+<div class="alert alert-danger" style="display:{{warn_newu}};"><strong>No New User</strong>: could not make a new user..</div>
+<div class="alert alert-success" style="display:{{success_newu}};"><strong>New User Created!!</strong></div>
+
+    <form action="" method="post"> {% csrf_token %}
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="id_firstname">First Name</label>
@@ -66,28 +69,28 @@ document.getElementById("settings").className += " active";
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="inputFName">First Name</label>
-                <input type="text" class="form-control" id="inputFName" placeholder="Ernest">
+                <input type="text" class="form-control" id="inputFName" name="inputFName" placeholder="Ernest">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputLName">Last Name</label>
-                <input type="text" class="form-control" id="inputLName" placeholder="Thornhill">
+                <input type="text" class="form-control" id="inputLName" name="inputLName" placeholder="Thornhill">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="inputAddress">Username</label>
-                <input type="username" class="form-control" id="inputUsername" placeholder="ethornhill">
+                <input type="username" class="form-control" id="inputUsername" name="inputUsername" placeholder="ethornhill">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputLName">Password</label>
-                <input type="password" class="form-control" id="inputPassword" placeholder="Shhh, its a secret">
+                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Shhh, its a secret">
               </div>
             </div>
             <div class="form-group">
               <label for="inputAddress">Email Address</label>
-              <input type="email" class="form-control" id="inputEmailAddress" placeholder="ethornhill@landing.co">
+              <input type="email" class="form-control" id="inputEmailAddress" name="inputEmailAddress" placeholder="ethornhill@landing.co">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <input class="form-check-input" type="checkbox" name="gridCheck" id="gridCheck">
                   <label class="form-check-label" for="gridCheck">
                     Subscribe to notifications
                   </label>
@@ -96,11 +99,11 @@ document.getElementById("settings").className += " active";
             <div class="form-row">
               <div class="form-group">
                 <label for="inputAddress">Phone</label>
-                <input type="phone" class="form-control" id="inputPhone" placeholder="+1 (888) 888-8888">
+                <input type="phone" class="form-control" id="inputPhone" name="inputPhone" placeholder="+1 (888) 888-8888">
               </div>
               <div class="form-group col-md-6">
                 <label for="inputLName">Pronouns</label>
-                <input type="text" class="form-control" id="inputPronoun" placeholder="they/them/theirs">
+                <input type="text" class="form-control" id="inputPronoun" name="inputPronoun" placeholder="they/them/theirs">
               </div>
             </div>
             <div class="form-row">
@@ -189,9 +192,9 @@ document.getElementById("settings").className += " active";
 	</div>-->
 	{{form.errors}}
 	{{form.non_field_errors}}
-	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#passwordModal">Change Password</button>
-  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#accountModal">Create new user</button>
-  <button type="button" class="btn btn-outline-secondary">Payroll History</button>
-  <button class="btn btn-primary" type="submit">Update</button>
+	    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#passwordModal">Change Password</button>
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#accountModal">Create new user</button>
+      <button type="button" class="btn btn-outline-secondary">Payroll History</button>
+      <button class="btn btn-primary" type="submit">Update</button>
     </form>
 {% endblock %}

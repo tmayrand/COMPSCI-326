@@ -74,12 +74,12 @@ def dash(request):
         request,
         'catalog/user_dash.html',
         context={**{'announcements': announcements,
-                      'today_sched': today_times,
-                      'today_users': today_users,
-                    'popup':popup,
-                    'popupdata':popupdata},
-                    'punch_status':punch_status,
-                   **template(request)}
+                    'today_sched': today_times,
+                    'today_users': today_users,
+                    'popup': popup,
+                    'popupdata': popupdata,
+                    'punch_status': punch_status},
+                    **template(request)}
     )
 
 def admin_dash(request):
@@ -212,6 +212,33 @@ def admin_settings(request):
     if (not request.user.is_authenticated) or get_current_user(request) == None:
         return redirect("login")
     curuser = get_current_user(request)
+
+    print("checking form")
+    new_user_fail = "none"
+    new_user_success = "none"
+    if ("inputUsername" in request.POST):
+        if len(user.objects.filter(username=request.POST["inputUsername"])) > 0:
+            print("User Already Exists")
+            new_user_fail = "inherit"
+        else:
+            print("New User!!")
+            newUID = list(map(lambda x: x.uid, user.objects.all())).sort()
+            checkBox: BooleanField = 1 in request.POST.getlist('gridCheck')
+            newUser = user(username=request.POST["inputUsername"],
+                           usertype=1,
+                           uid=newUID,
+                           firstname=request.POST["inputFName"],
+                           lastname=request.POST["inputLName"],
+                           password=request.POST["inputPassword"],
+                           email=request.POST["inputEmailAddress"],
+                           notification=checkBox,
+                           pronoun=request.POST["inputPronoun"],
+                           phone=request.POST["inputPhone"],
+                           overtime=request.POST["overtimeModal"]
+                           )
+            newUser.save()
+            new_user_success = "inherit"
+
     request.POST._mutable = True
     passWarning = "none"
     passSuccess = "none"
@@ -226,9 +253,15 @@ def admin_settings(request):
                 passWarning = "inherit"
     if "username" in request.POST:
         request.POST["username"] = curuser.username
+
     form = settingsForm(request.POST or None, instance=curuser)
     if form.is_valid():
         form.save()
+
+
+
+
+
     ot = "checked"
     notot = ""
     notif = "checked"
@@ -251,7 +284,9 @@ def admin_settings(request):
             'notification': notif,
             'form': form,
             'warn': passWarning,
-            'success': passSuccess},**template(request)}
+            'success': passSuccess,
+            'warn_newu': new_user_fail,
+            'success_newu': new_user_success},**template(request)}
     )
 
 def availability(request):
