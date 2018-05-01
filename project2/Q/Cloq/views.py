@@ -25,9 +25,10 @@ def dash(request):
     popupdata = "" 
     punch_status = ""
 
-    last_name = request.user.username[1:].capitalize()
-    current_worker = user.objects.all().filter(Q(lastname=last_name))[0]
+    uname = request.user.username
+    current_worker = user.objects.all().filter(Q(username=uname))[0]
     time_shift = time.objects.all().filter(Q(uid=current_worker.uid), Q(timetype=1) | Q(timetype=2)).order_by("-tid")
+
     if len(time_shift) == 0:
       punch_status = "clocked out"
     elif time_shift[0].timetype == 1:
@@ -229,7 +230,7 @@ def admin_settings(request):
                            uid=newUID,
                            firstname=request.POST["inputFName"],
                            lastname=request.POST["inputLName"],
-                           password=request.POST["inputPassword"],
+                           password=make_password(request.POST["inputPassword"]),
                            email=request.POST["inputEmailAddress"],
                            notification=checkBox,
                            pronoun=request.POST["inputPronoun"],
